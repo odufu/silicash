@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -8,6 +9,35 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _isObscured = true; // Controls visibility of the password field
+  final LocalAuthentication auth =
+      LocalAuthentication(); // For biometric authentication
+
+  // Function to handle biometric authentication
+  Future<void> _authenticateWithBiometrics() async {
+    bool authenticated = false;
+    try {
+      authenticated = await auth.authenticate(
+        localizedReason: 'Confirm fingerprint to continue',
+        options: const AuthenticationOptions(
+          useErrorDialogs: true,
+          stickyAuth: true,
+        ),
+      );
+    } catch (e) {
+      print("Error during biometric authentication: $e");
+    }
+
+    if (authenticated) {
+      // Perform login or navigate to the next screen
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Biometric Authentication Successful")),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Biometric Authentication Failed")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +129,9 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   IconButton(
                     icon: Image.asset("assets/images/appAssets/biometrics.png"),
-                    onPressed: () {
-                      // Add biometric login functionality
+                    onPressed: () async {
+                      // Trigger biometric authentication
+                      await _authenticateWithBiometrics();
                     },
                   ),
                   const Text('Use Biometric Login'),
@@ -111,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
             AppButton(
               buttonLabel: "Login",
               onclick: () {
-                print("CLiced button");
+                print("Clicked Login button");
               },
             ),
             const Spacer(),

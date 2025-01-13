@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:silicash_mobile/features/login/pages/login_page.dart';
+import 'package:silicash_mobile/features/welcome/pages/welcome_page.dart';
 import './core/theme/light_mode.dart';
 import './features/splash_screen/pages/splash_screen4.dart';
 import './features/splash_screen/pages/splash_screen5.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Silicash',
       theme: lightMode,
-      home: LoginPage(),
+      home: WelcomePage(),
     );
   }
 }
