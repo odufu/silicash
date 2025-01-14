@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
 
-class SplashScreen extends StatelessWidget {
+import '../../../core/utils/helper_functions.dart';
+import '../../welcome/pages/welcome_page.dart';
+
+class SplashScreen extends StatefulWidget {
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      // ignore: use_build_context_synchronously
+      HelperFunctions.routeReplacdTo(WelcomePage(), context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
