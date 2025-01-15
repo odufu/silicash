@@ -41,23 +41,16 @@ jobs:
         run: curl -sL https://firebase.tools | bash
 
       - name: Authenticate with Firebase using Service Account
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
-          echo "${FIREBASE_SERVICE_ACCOUNT}" > firebase_service_account.json
-          gcloud auth activate-service-account --key-file=firebase_service_account.json
+          gcloud auth activate-service-account --key-file=../../assets/keys/silicash.json
           gcloud --quiet config set project realestate-5b43e
 
       - name: Upload to Firebase App Distribution
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: firebase_service_account.json
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          GOOGLE_APPLICATION_CREDENTIALS: ../../assets/keys/silicash.json
         run: |
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
             --app 1:367882291235:android:812cd74926c5479897c996 \
             --release-notes "Automated release from GitHub Actions" \
             --groups "testers" \
             --project realestate-5b43e
-
-      - name: Clean up
-        run: rm firebase_service_account.json

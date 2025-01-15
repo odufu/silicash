@@ -11,6 +11,7 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
+  Timer? _timer; // Add a timer reference to manage cancellation
 
   final List<Map<String, String>> _welcomeContent = [
     {
@@ -37,8 +38,9 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   void initState() {
     super.initState();
+
     // Start automatic sliding
-    Timer.periodic(Duration(seconds: 3), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
       if (_currentPage < _welcomeContent.length - 1) {
         _currentPage++;
       } else {
@@ -54,7 +56,8 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   void dispose() {
-    _pageController.dispose();
+    _timer?.cancel(); // Cancel the timer when the widget is disposed
+    _pageController.dispose(); // Dispose of the PageController
     super.dispose();
   }
 
