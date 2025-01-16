@@ -43,14 +43,14 @@ jobs:
       - name: Authenticate with Firebase using Service Account
         run: |
           gcloud auth activate-service-account --key-file=../../assets/keys/silicash.json
-          gcloud --quiet config set project realestate-5b43e
+          gcloud --quiet config set project silicash-14d97
 
       - name: Upload to Firebase App Distribution
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ../../assets/keys/silicash.json
         run: |
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
-            --app 1:367882291235:android:812cd74926c5479897c996 \
+            --app 1:611760302482:android:268298bac91aea7fdfb94b \
             --release-notes "Automated release from GitHub Actions" \
             --groups "testers" \
-            --project realestate-5b43e
+            --project silicash-14d97

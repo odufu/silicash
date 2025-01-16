@@ -1,4 +1,4 @@
-package com.example.silicash_mobile
+package com.example.silicashmobile
 
 import io.flutter.embedding.android.FlutterActivity
 
