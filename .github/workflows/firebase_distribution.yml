@@ -15,7 +15,7 @@ jobs:
       - name: Set up Java 17
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin' # You can also use 'zulu' if needed.
+          distribution: 'temurin'
           java-version: '17'
 
       - name: Set up Flutter
@@ -28,6 +28,9 @@ jobs:
 
       - name: Build APK
         run: flutter build apk --release
+
+      - name: Debug APK Path
+        run: ls -al build/app/outputs/flutter-apk/
 
       - name: Set up Google Cloud SDK
         run: |
@@ -46,10 +49,19 @@ jobs:
         run: |
           gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
           gcloud --quiet config set project silicash-14d97
+          gcloud auth print-access-token > firebase_token.txt
+
+      - name: Validate Testers Group
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          firebase appdistribution:testers:list --app 1:611760302482:android:268298bac91aea7fdfb94b \
+            --project silicash-14d97
 
       - name: Upload to Firebase App Distribution
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ./assets/keys/silicash.json
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
             --app 1:611760302482:android:268298bac91aea7fdfb94b \
