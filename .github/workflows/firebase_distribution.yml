@@ -42,7 +42,7 @@ jobs:
 
       - name: Authenticate with Firebase using Service Account
         run: |
-          gcloud auth activate-service-account --key-file=../../assets/keys/silicash.json
+          gcloud auth activate-service-account --key-file=assets/keys/silicash.json
           gcloud --quiet config set project silicash-14d97
 
       - name: Upload to Firebase App Distribution
