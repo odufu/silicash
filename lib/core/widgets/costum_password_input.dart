@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
 
 class CostumPasswordInput extends StatelessWidget {
-  const CostumPasswordInput({
-    super.key,
-    required this.confirmPasswordController,
-    required bool isObscured,
-    required this.label,
-    required this.hint,
-    this.onPressed,
-  }) : _isObscured = isObscured;
+  const CostumPasswordInput(
+      {super.key,
+      required this.confirmPasswordController,
+      required bool isObscured,
+      required this.label,
+      required this.hint,
+      this.onPressed,
+      this.maxLength,
+      this.keyboardType})
+      : _isObscured = isObscured;
 
   final TextEditingController confirmPasswordController;
   final bool _isObscured;
   final String label;
   final String hint;
+  final TextInputType? keyboardType;
+  final int? maxLength;
   final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: confirmPasswordController,
+      keyboardType: keyboardType,
+      maxLength: maxLength,
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(fontSize: 16, color: Colors.black),
