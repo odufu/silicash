@@ -1,11 +1,11 @@
-name: Firebase App Upload
+name: Build and Upload APK
 
 on:
   push:
     branches: [main]
 
 jobs:
-  build_and_upload:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,28 +32,8 @@ jobs:
       - name: Debug APK Path
         run: ls -al build/app/outputs/flutter-apk/
 
-      - name: Set up Google Cloud SDK
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y apt-transport-https ca-certificates gnupg
-          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
-          curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/cloud.google.gpg > /dev/null
-          sudo apt-get update && sudo apt-get install -y google-cloud-sdk
-
-      - name: Install Firebase CLI
-        run: curl -sL https://firebase.tools | bash
-
-      - name: Authenticate with Firebase using Service Account
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ./assets/keys/silicash.json
-        run: |
-          gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
-          gcloud --quiet config set project silicash-14d97
-
-      - name: Upload APK to Firebase
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ./assets/keys/silicash.json
-        run: |
-          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
-            --app 1:611760302482:android:268298bac91aea7fdfb94b \
-            --project silicash-14d97
+      - name: Upload APK as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
