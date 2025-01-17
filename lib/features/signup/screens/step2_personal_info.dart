@@ -20,7 +20,6 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
   String? lastName;
   String? gender;
   String? countryCode;
-  String? phoneNumber;
   String? email;
 
   // Function to check if all fields are filled
@@ -35,8 +34,6 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
       gender!.isNotEmpty &&
       countryCode != null &&
       countryCode!.isNotEmpty &&
-      phoneNumber != null &&
-      phoneNumber!.isNotEmpty &&
       email != null &&
       email!.isNotEmpty;
 
