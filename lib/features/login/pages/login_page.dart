@@ -47,14 +47,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        action: AnimatedCircularProgress(
-          numerator: 2,
-          denominator: 5,
-          startingColor: Theme.of(context).colorScheme.secondary,
-          endingColor: Theme.of(context).colorScheme.primary,
-        ),
-      ),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
