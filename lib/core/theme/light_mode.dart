@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 ThemeData lightMode = ThemeData(
   brightness: Brightness.light,
@@ -19,22 +20,10 @@ ThemeData lightMode = ThemeData(
     onTertiary: Colors.white,
     error: Colors.red,
     onError: Colors.white,
-    background: Colors.white,
-    onBackground: Colors.black,
     surface: const Color(0xFFF5F5F5), // Light surface color
     onSurface: Colors.grey.shade800,
   ),
-  textTheme: TextTheme(
-    displayLarge: const TextStyle(
-      color: Color(0xFF5E9024),
-      fontSize: 32,
-      fontWeight: FontWeight.bold,
-    ),
-    bodyLarge: TextStyle(
-      color: Colors.grey.shade800,
-      fontSize: 16,
-    ),
-  ),
+  textTheme: GoogleFonts.ralewayTextTheme(),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: const Color(0xFF5E9024), // Button background color

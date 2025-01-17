@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
+import 'package:silicash_mobile/features/signup/pages/signup_page.dart';
+import 'package:silicash_mobile/features/signup/widgets/annimated_circular_widget.dart';
+
+import '../../../core/widgets/costum_app_bar.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -42,28 +47,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(56), // Height of the custom AppBar
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Row(
-            children: [
-              IconButton(
-                icon: Image.asset("assets/images/brand/arrowLeft.png"),
-                onPressed: () {
-                  Navigator.pop(context); // Navigate back
-                },
-              ),
-              Text(
-                'Back',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey[800],
-                ),
-              ),
-            ],
-          ),
+      appBar: CustomAppBar(
+        action: AnimatedCircularProgress(
+          numerator: 2,
+          denominator: 5,
+          startingColor: Theme.of(context).colorScheme.secondary,
+          endingColor: Theme.of(context).colorScheme.primary,
         ),
       ),
       body: Padding(
@@ -145,14 +134,20 @@ class _LoginPageState extends State<LoginPage> {
                 print("Clicked Login button");
               },
             ),
-            const Spacer(),
             Center(
               child: TextButton(
                 onPressed: () {
-                  // Add create account functionality
+                  HelperFunctions.routePushTo(SignupPage(), context);
                 },
-                child: const Text('Don’t have an account? Create Account',
-                    style: TextStyle(color: Colors.green)),
+                child: Row(
+                  children: [
+                    const Text('Don’t have an account? ',
+                        style: TextStyle(color: Colors.black)),
+                    Text('Create Account',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary)),
+                  ],
+                ),
               ),
             ),
           ],

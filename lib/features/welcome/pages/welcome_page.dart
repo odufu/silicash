@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
+import 'package:silicash_mobile/core/widgets/costum_text_button.dart';
 import 'package:silicash_mobile/features/login/pages/login_page.dart';
+import 'package:silicash_mobile/features/signup/pages/signup_page.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -67,44 +70,46 @@ class _WelcomePageState extends State<WelcomePage> {
       body: Column(
         children: [
           Expanded(
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: _welcomeContent.length,
-              onPageChanged: (index) {
-                setState(() {
-                  _currentPage = index;
-                });
-              },
-              itemBuilder: (context, index) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      _welcomeContent[index]["image"]!,
-                      height: 250,
-                      fit: BoxFit.contain,
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      _welcomeContent[index]["title"]!,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: _welcomeContent.length,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPage = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        _welcomeContent[index]["image"]!,
+                        height: 250,
+                        fit: BoxFit.contain,
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      _welcomeContent[index]["subtitle"]!,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey[600],
+                      const SizedBox(height: 20),
+                      Text(
+                        _welcomeContent[index]["title"]!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                      const SizedBox(height: 10),
+                      Text(
+                        _welcomeContent[index]["subtitle"]!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
           Row(
@@ -117,28 +122,34 @@ class _WelcomePageState extends State<WelcomePage> {
                 height: 8,
                 width: _currentPage == index ? 16 : 8,
                 decoration: BoxDecoration(
-                  color:
-                      _currentPage == index ? Colors.green : Colors.grey[400],
-                  borderRadius: BorderRadius.circular(4),
-                ),
+                    borderRadius: BorderRadius.circular(4),
+                    gradient: LinearGradient(colors: [
+                      _currentPage == index
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.grey,
+                      _currentPage == index
+                          ? Theme.of(context).colorScheme.secondary
+                          : Colors.grey,
+                    ])),
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 80),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
               children: [
-                AppButton(buttonLabel: "Create Account"),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => LoginPage()));
-                  },
-                  child: Text(
-                    "Login your account",
-                  ),
+                AppButton(
+                  buttonLabel: "Create Account",
+                  onclick: () =>
+                      HelperFunctions.routeReplacdTo(SignupPage(), context),
                 ),
+                const SizedBox(height: 16),
+                CostumTextButton(
+                  buttonLabel: "Login your account",
+                  onclick: () =>
+                      HelperFunctions.routeReplacdTo(LoginPage(), context),
+                )
               ],
             ),
           ),

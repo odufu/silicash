@@ -5,7 +5,7 @@ class AppButton extends StatelessWidget {
   final void Function()? onclick;
   const AppButton({
     required this.buttonLabel,
-     this.onclick,
+    this.onclick,
     super.key,
   });
 
@@ -26,8 +26,12 @@ class AppButton extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Theme.of(context).colorScheme.primary,
-                Theme.of(context).colorScheme.secondary
+                onclick == null
+                    ? Colors.grey.shade300
+                    : Theme.of(context).colorScheme.primary,
+                onclick == null
+                    ? Colors.grey.shade300
+                    : Theme.of(context).colorScheme.secondary,
               ],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
@@ -36,10 +40,12 @@ class AppButton extends StatelessWidget {
           ),
           child: Container(
             alignment: Alignment.center,
-            child:  Text(
+            child: Text(
               buttonLabel,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: onclick == null
+                    ? Theme.of(context).colorScheme.onSurface
+                    : Theme.of(context).colorScheme.surface,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
