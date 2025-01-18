@@ -112,11 +112,13 @@ class _Step3OtpScreenState extends State<Step3OtpScreen> {
                 HelperFunctions.routePushTo(LoginPage(), context);
               },
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('Already have an account? ',
                       style: TextStyle(color: Colors.black)),
                   Text('Login',
                       style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.primary)),
                 ],
               ),

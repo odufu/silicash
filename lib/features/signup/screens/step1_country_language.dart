@@ -77,11 +77,13 @@ class _Step1CountryLanguageState extends State<Step1CountryLanguage> {
                 HelperFunctions.routePushTo(LoginPage(), context);
               },
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('Already have an account? ',
                       style: TextStyle(color: Colors.black)),
                   Text('Login',
                       style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.primary)),
                 ],
               ),

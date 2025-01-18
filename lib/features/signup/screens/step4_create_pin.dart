@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
 import 'package:silicash_mobile/core/widgets/costum_password_input.dart';
 
+import '../../../core/utils/helper_functions.dart';
+import '../../login/pages/login_page.dart';
+
 class Step4CreatePinScreen extends StatefulWidget {
   final VoidCallback onNext;
 
@@ -12,12 +15,12 @@ class Step4CreatePinScreen extends StatefulWidget {
 }
 
 class _Step4CreatePinScreenState extends State<Step4CreatePinScreen> {
-  bool get isComplet =>
-      pinController.text == confirmPinController.text &&
-      pinController.text.length == 4;
   bool _isObscure = true;
   final pinController = TextEditingController();
   final confirmPinController = TextEditingController();
+  bool get isComplet =>
+      pinController.text == confirmPinController.text &&
+      pinController.text.length == 4;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,12 +28,12 @@ class _Step4CreatePinScreenState extends State<Step4CreatePinScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 20),
-          Text(
+          const SizedBox(height: 20),
+          const Text(
             "Create Your PIN",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             "This PIN will be used to secure your account.",
             style: TextStyle(color: Colors.grey),
@@ -57,6 +60,11 @@ class _Step4CreatePinScreenState extends State<Step4CreatePinScreen> {
           CostumPasswordInput(
             hint: "Enter Same Pin",
             label: "Confirm Pin",
+            onChanged: (value){
+              setState(() {
+                
+              });
+            },
             keyboardType: TextInputType.number,
             maxLength: 4,
             confirmPasswordController: confirmPinController,
@@ -75,7 +83,25 @@ class _Step4CreatePinScreenState extends State<Step4CreatePinScreen> {
                   ? () {
                       widget.onNext();
                     }
-                  : null)
+                  : null),
+          Center(
+            child: TextButton(
+              onPressed: () {
+                HelperFunctions.routePushTo(LoginPage(), context);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Already have an account? ',
+                      style: TextStyle(color: Colors.black)),
+                  Text('Login',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary)),
+                ],
+              ),
+            ),
+          ),
           // // Continue Button
           // ElevatedButton(
           //   onPressed: () {

@@ -8,6 +8,7 @@ class CostumPasswordInput extends StatelessWidget {
       required this.label,
       required this.hint,
       this.onPressed,
+      this.onChanged,
       this.maxLength,
       this.keyboardType})
       : _isObscured = isObscured;
@@ -19,10 +20,12 @@ class CostumPasswordInput extends StatelessWidget {
   final TextInputType? keyboardType;
   final int? maxLength;
   final void Function()? onPressed;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: onChanged,
       controller: confirmPasswordController,
       keyboardType: keyboardType,
       maxLength: maxLength,

@@ -133,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                   HelperFunctions.routePushTo(SignupPage(), context);
                 },
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Don’t have an account? ',
                         style: TextStyle(color: Colors.black)),

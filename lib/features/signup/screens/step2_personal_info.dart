@@ -49,6 +49,27 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
         key: _formKey,
         child: Column(
           children: [
+            const Row(
+              children: [
+                Text(
+                  "Personal Information",
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const Row(
+              children: [
+                Text(
+                  "First Name (as seen on your ID)",
+                  style: TextStyle(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+
             TextFormField(
               decoration: const InputDecoration(
                 labelText: "First Name",
@@ -58,6 +79,15 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
                   _onFieldChanged(value, (v) => firstName = v),
             ),
             const SizedBox(height: 20),
+            const Row(
+              children: [
+                Text(
+                  "Middle Name (Optional)",
+                  style: TextStyle(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
             TextFormField(
               decoration: const InputDecoration(
                 labelText: "Middle Name",
@@ -67,6 +97,16 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
                   _onFieldChanged(value, (v) => middleName = v),
             ),
             const SizedBox(height: 20),
+            const Row(
+              children: [
+                Text(
+                  "Last Name",
+                  style: TextStyle(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+
             TextFormField(
               decoration: const InputDecoration(
                 labelText: "Last Name",
@@ -75,6 +115,15 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
               onChanged: (value) => _onFieldChanged(value, (v) => lastName = v),
             ),
             const SizedBox(height: 20),
+            Row(
+              children: [
+                Text(
+                  "Gender",
+                  style: TextStyle(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
             DropdownButtonFormField<String>(
               decoration: const InputDecoration(
                 labelText: "Gender",
@@ -115,6 +164,15 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
             //   ],
             // ),
             const SizedBox(height: 20),
+            Row(
+              children: [
+                Text(
+                  "Email Address",
+                  style: TextStyle(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
             TextFormField(
               decoration: const InputDecoration(
                 labelText: "Email Address",
@@ -133,11 +191,15 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
                   HelperFunctions.routePushTo(LoginPage(), context);
                 },
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Already have an account? ',
                         style: TextStyle(color: Colors.black)),
                     Text('Login',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            decorationStyle: TextDecorationStyle.solid,
+                            decoration: TextDecoration.underline,
                             color: Theme.of(context).colorScheme.primary)),
                   ],
                 ),
