@@ -19,6 +19,7 @@ class _Step3OtpScreenState extends State<Step3OtpScreen> {
 
   // Check if all OTP fields are filled
   bool get isOtpComplete => otpValues.every((value) => value.isNotEmpty);
+  
 
   // Function to handle OTP input changes
   void _onOtpChanged(String value, int index) {

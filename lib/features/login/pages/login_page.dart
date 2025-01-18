@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
+import 'package:silicash_mobile/core/widgets/costum_password_input.dart';
 import 'package:silicash_mobile/features/signup/pages/signup_page.dart';
 import 'package:silicash_mobile/features/signup/widgets/annimated_circular_widget.dart';
 
@@ -59,6 +60,15 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 40),
+            const Row(
+              children: [
+                Text(
+                  "Email Address",
+                  style: TextStyle(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
             const TextField(
               decoration: InputDecoration(
                 labelText: 'Email Address',
@@ -67,32 +77,24 @@ class _LoginPageState extends State<LoginPage> {
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 20),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Password',
-                labelStyle: const TextStyle(fontSize: 16, color: Colors.black),
-                hintText: 'Enter Pin (Four digits)',
-                hintStyle: TextStyle(fontSize: 14, color: Colors.grey[500]),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: const BorderSide(color: Colors.grey),
+            const Row(
+              children: [
+                Text(
+                  "Password",
+                  style: TextStyle(),
                 ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isObscured ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isObscured = !_isObscured;
-                    });
-                  },
-                ),
-              ),
-              obscureText: _isObscured,
-              keyboardType: TextInputType.number,
-              maxLength: 4,
+              ],
             ),
+            const SizedBox(height: 10),
+            CostumPasswordInput(
+                isObscured: _isObscured,
+                onPressed: () {
+                  setState(() {
+                    _isObscured = !_isObscured;
+                  });
+                },
+                label: "Password",
+                hint: "Enter your Password"),
             const SizedBox(height: 10),
             Align(
               alignment: Alignment.centerRight,

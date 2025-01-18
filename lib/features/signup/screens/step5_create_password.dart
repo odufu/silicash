@@ -21,163 +21,180 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
   bool _agreeUpdates = false;
   bool _acceptTerms = false;
 
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  String? password;
+  String? confirmPassword;
 
-  bool get _isComplete =>
-      passwordController.text.isNotEmpty &&
-      passwordController.text == confirmPasswordController.text &&
-      _agreeUpdates &&
-      _acceptTerms;
+  // Function to check if all fields are filled
+  bool get isFormComplete =>
+      password != null &&
+      password!.isNotEmpty &&
+      confirmPassword != null &&
+      confirmPassword!.isNotEmpty &&
+      password == confirmPassword &&
+      _acceptTerms != false &&
+      _agreeUpdates != false;
+
+  // Function to handle input changes
+  void _onFieldChanged(String? value, Function(String?) updateField) {
+    setState(() {
+      updateField(value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 20),
-          Text(
-            "Create Your Password",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 10),
-          Text(
-            "Make sure your password is strong and memorable.",
-            style: TextStyle(color: Colors.grey),
-          ),
-          SizedBox(height: 40),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 20),
+            Text(
+              "Create Your Password",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Make sure your password is strong and memorable.",
+              style: TextStyle(color: Colors.grey),
+            ),
+            SizedBox(height: 40),
 
-          // Password Input
-          CostumPasswordInput(
-            hint: "Enter at list 8 characters",
-            label: "Enter a Password",
-            confirmPasswordController: passwordController,
-            isObscured: _isObscured,
-            onPressed: () {
-              setState(() {
-                _isObscured = !_isObscured;
-              });
-            },
-          ),
-          SizedBox(height: 20),
+            // Password Input
+            CostumPasswordInput(
+              hint: "Enter at list 8 characters",
+              onChanged: (value) => _onFieldChanged(value, (v) => password = v),
+              label: "Enter a Password",
+              isObscured: _isObscured,
+              onPressed: () {
+                setState(() {
+                  _isObscured = !_isObscured;
+                });
+              },
+            ),
+            SizedBox(height: 20),
 
-          // Confirm Password Input
-          CostumPasswordInput(
-            hint: "Enter the same password",
-            label: "Confirm Password",
-            confirmPasswordController: confirmPasswordController,
-            isObscured: _isObscured,
-            onPressed: () {
-              setState(() {
-                _isObscured = !_isObscured;
-              });
-            },
-          ),
-          SizedBox(height: 20),
+            // Confirm Password Input
+            CostumPasswordInput(
+              hint: "Enter the same password",
+              label: "Confirm Password",
+              onChanged: (value) =>
+                  _onFieldChanged(value, (v) => confirmPassword = v),
+              isObscured: _isObscured,
+              onPressed: () {
+                setState(() {
+                  _isObscured = !_isObscured;
+                });
+              },
+            ),
+            SizedBox(height: 20),
 
-          // Gradient Checkboxes Section
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Checkbox(
-                value: _agreeUpdates,
-                onChanged: (value) {
-                  setState(() {
-                    _agreeUpdates = value ?? false;
-                  });
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0),
+            // Gradient Checkboxes Section
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Checkbox(
+                  value: _agreeUpdates,
+                  onChanged: (value) {
+                    setState(() {
+                      _agreeUpdates = value ?? false;
+                    });
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  side: BorderSide(color: Colors.grey),
+                  checkColor: Colors.white,
+                  activeColor: Colors.green,
                 ),
-                side: BorderSide(color: Colors.grey),
-                checkColor: Colors.white,
-                activeColor: Colors.green,
-              ),
-              Expanded(
-                child: Text(
-                  "I agree to receive product updates, announcements, and exclusive offers via email.",
-                  style: TextStyle(fontSize: 14),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Checkbox(
-                value: _acceptTerms,
-                onChanged: (value) {
-                  setState(() {
-                    _acceptTerms = value ?? false;
-                  });
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-                side: BorderSide(color: Colors.grey),
-                checkColor: Colors.white,
-                activeColor: Colors.green,
-              ),
-              Expanded(
-                child: RichText(
-                  text: TextSpan(
-                    text: "I accept the ",
-                    style: TextStyle(fontSize: 14, color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: "Terms of Use",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.green,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                      TextSpan(
-                        text: " and ",
-                      ),
-                      TextSpan(
-                        text: "Privacy Policy.",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.green,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ],
+                Expanded(
+                  child: Text(
+                    "I agree to receive product updates, announcements, and exclusive offers via email.",
+                    style: TextStyle(fontSize: 14),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 40),
+              ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Checkbox(
+                  value: _acceptTerms,
+                  onChanged: (value) {
+                    setState(() {
+                      _acceptTerms = value ?? false;
+                    });
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  side: BorderSide(color: Colors.grey),
+                  checkColor: Colors.white,
+                  activeColor: Colors.green,
+                ),
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      text: "I accept the ",
+                      style: TextStyle(fontSize: 14, color: Colors.black),
+                      children: [
+                        TextSpan(
+                          text: "Terms of Use",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.green,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                        TextSpan(
+                          text: " and ",
+                        ),
+                        TextSpan(
+                          text: "Privacy Policy.",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.green,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 40),
 
-          // Continue Button
-          AppButton(
-            buttonLabel: "Continue",
-            onclick: _isComplete
-                ? HelperFunctions.routeReplacdTo(SuccessScreen(), context)
-                : null,
-          ),
+            // Continue Button
+            AppButton(
+              buttonLabel: "Continue",
+              onclick: isFormComplete
+                  ? () =>
+                      HelperFunctions.routeReplacdTo(SuccessScreen(), context)
+                  : null,
+            ),
 
-          Center(
-            child: TextButton(
-              onPressed: () {
-                HelperFunctions.routePushTo(LoginPage(), context);
-              },
-              child: Row(
-                children: [
-                  const Text('Already have an account? ',
-                      style: TextStyle(color: Colors.black)),
-                  Text('Login',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary)),
-                ],
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  HelperFunctions.routePushTo(LoginPage(), context);
+                },
+                child: Row(
+                  children: [
+                    const Text('Already have an account? ',
+                        style: TextStyle(color: Colors.black)),
+                    Text('Login',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary)),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

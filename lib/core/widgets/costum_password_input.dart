@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CostumPasswordInput extends StatelessWidget {
   const CostumPasswordInput(
       {super.key,
-      required this.confirmPasswordController,
+      this.confirmPasswordController,
       required bool isObscured,
       required this.label,
       required this.hint,
@@ -13,7 +13,7 @@ class CostumPasswordInput extends StatelessWidget {
       this.keyboardType})
       : _isObscured = isObscured;
 
-  final TextEditingController confirmPasswordController;
+  final TextEditingController? confirmPasswordController;
   final bool _isObscured;
   final String label;
   final String hint;
@@ -24,7 +24,7 @@ class CostumPasswordInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       onChanged: onChanged,
       controller: confirmPasswordController,
       keyboardType: keyboardType,
