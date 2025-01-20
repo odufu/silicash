@@ -42,101 +42,103 @@ class _Step4CreatePinScreenState extends State<Step4CreatePinScreen> {
       padding: const EdgeInsets.all(24.0),
       child: Form(
         key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20),
-            const Text(
-              "Create Your PIN",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "This PIN will be used to secure your account.",
-              style: TextStyle(color: Colors.grey),
-            ),
-            SizedBox(height: 40),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20),
+              const Text(
+                "Create Your PIN",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "This PIN will be used to secure your account.",
+                style: TextStyle(color: Colors.grey),
+              ),
+              SizedBox(height: 40),
 
-            // PIN Input
-            CostumPasswordInput(
-              isObscured: _isObscure,
-              label: "Enter Pin",
-              hint: "Enter a 4 digit Pin",
-              keyboardType: TextInputType.number,
-              maxLength: 4,
-              onChanged: (value) => _onFieldChanged(value, (v) => pin = v),
-              onPressed: () {
-                setState(() {
-                  _isObscure = !_isObscure;
-                });
-              },
-            ),
-            SizedBox(height: 20),
-
-            // Confirm PIN Input
-            CostumPasswordInput(
-              hint: "Enter Same Pin",
-              label: "Confirm Pin",
-              onChanged: (value) =>
-                  _onFieldChanged(value, (v) => confirmPin = v),
-              keyboardType: TextInputType.number,
-              maxLength: 4,
-              isObscured: _isObscure,
-              onPressed: () {
-                setState(() {
-                  _isObscure = !_isObscure;
-                });
-              },
-            ),
-            SizedBox(height: 40),
-
-            AppButton(
-                buttonLabel: "Continue",
-                onclick: isFormComplete
-                    ? () {
-                        widget.onNext();
-                      }
-                    : null),
-            Center(
-              child: TextButton(
+              // PIN Input
+              CostumPasswordInput(
+                isObscured: _isObscure,
+                label: "Enter Pin",
+                hint: "Enter a 4 digit Pin",
+                keyboardType: TextInputType.number,
+                maxLength: 4,
+                onChanged: (value) => _onFieldChanged(value, (v) => pin = v),
                 onPressed: () {
-                  HelperFunctions.routePushTo(LoginPage(), context);
+                  setState(() {
+                    _isObscure = !_isObscure;
+                  });
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Already have an account? ',
-                        style: TextStyle(color: Colors.black)),
-                    Text('Login',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary)),
-                  ],
+              ),
+              SizedBox(height: 20),
+
+              // Confirm PIN Input
+              CostumPasswordInput(
+                hint: "Enter Same Pin",
+                label: "Confirm Pin",
+                onChanged: (value) =>
+                    _onFieldChanged(value, (v) => confirmPin = v),
+                keyboardType: TextInputType.number,
+                maxLength: 4,
+                isObscured: _isObscure,
+                onPressed: () {
+                  setState(() {
+                    _isObscure = !_isObscure;
+                  });
+                },
+              ),
+              SizedBox(height: 40),
+
+              AppButton(
+                  buttonLabel: "Continue",
+                  onclick: isFormComplete
+                      ? () {
+                          widget.onNext();
+                        }
+                      : null),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    HelperFunctions.routePushTo(LoginPage(), context);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Already have an account? ',
+                          style: TextStyle(color: Colors.black)),
+                      Text('Login',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            // // Continue Button
-            // ElevatedButton(
-            //   onPressed: () {
-            //     // Add validation logic for PINs here
-            //     if (pinController.text == confirmPinController.text &&
-            //         pinController.text.length == 4) {
-            //       widget.onNext();
-            //     } else {
-            //       // Show validation error
-            //       ScaffoldMessenger.of(context).showSnackBar(
-            //         SnackBar(
-            //           content: Text("PINs do not match or are invalid."),
-            //         ),
-            //       );
-            //     }
-            //   },
-            //   child: Text("Continue"),
-            //   style: ElevatedButton.styleFrom(
-            //     minimumSize: Size(double.infinity, 50),
-            //   ),
-            // ),
-          ],
+              // // Continue Button
+              // ElevatedButton(
+              //   onPressed: () {
+              //     // Add validation logic for PINs here
+              //     if (pinController.text == confirmPinController.text &&
+              //         pinController.text.length == 4) {
+              //       widget.onNext();
+              //     } else {
+              //       // Show validation error
+              //       ScaffoldMessenger.of(context).showSnackBar(
+              //         SnackBar(
+              //           content: Text("PINs do not match or are invalid."),
+              //         ),
+              //       );
+              //     }
+              //   },
+              //   child: Text("Continue"),
+              //   style: ElevatedButton.styleFrom(
+              //     minimumSize: Size(double.infinity, 50),
+              //   ),
+              // ),
+            ],
+          ),
         ),
       ),
     );

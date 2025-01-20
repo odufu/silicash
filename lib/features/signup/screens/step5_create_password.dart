@@ -48,153 +48,155 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
       padding: const EdgeInsets.all(24.0),
       child: Form(
         key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20),
-            const Text(
-              "Create Your Password",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "Make sure your password is strong and memorable.",
-              style: TextStyle(color: Colors.grey),
-            ),
-            const SizedBox(height: 40),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20),
+              const Text(
+                "Create Your Password",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                "Make sure your password is strong and memorable.",
+                style: TextStyle(color: Colors.grey),
+              ),
+              const SizedBox(height: 40),
 
-            // Password Input
-            CostumPasswordInput(
-              hint: "Enter at list 8 characters",
-              onChanged: (value) => _onFieldChanged(value, (v) => password = v),
-              label: "Enter a Password",
-              isObscured: _isObscured,
-              onPressed: () {
-                setState(() {
-                  _isObscured = !_isObscured;
-                });
-              },
-            ),
-            const SizedBox(height: 20),
+              // Password Input
+              CostumPasswordInput(
+                hint: "Enter at list 8 characters",
+                onChanged: (value) =>
+                    _onFieldChanged(value, (v) => password = v),
+                label: "Enter a Password",
+                isObscured: _isObscured,
+                onPressed: () {
+                  setState(() {
+                    _isObscured = !_isObscured;
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
 
-            // Confirm Password Input
-            CostumPasswordInput(
-              hint: "Enter the same password",
-              label: "Confirm Password",
-              onChanged: (value) =>
-                  _onFieldChanged(value, (v) => confirmPassword = v),
-              isObscured: _isObscured,
-              onPressed: () {
-                setState(() {
-                  _isObscured = !_isObscured;
-                });
-              },
-            ),
-            const SizedBox(height: 20),
+              // Confirm Password Input
+              CostumPasswordInput(
+                hint: "Enter the same password",
+                label: "Confirm Password",
+                onChanged: (value) =>
+                    _onFieldChanged(value, (v) => confirmPassword = v),
+                isObscured: _isObscured,
+                onPressed: () {
+                  setState(() {
+                    _isObscured = !_isObscured;
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
 
-            // Gradient Checkboxes Section
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Checkbox(
-                  value: _agreeUpdates,
-                  onChanged: (value) {
-                    setState(() {
-                      _agreeUpdates = value ?? false;
-                    });
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0),
+              // Gradient Checkboxes Section
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Checkbox(
+                    value: _agreeUpdates,
+                    onChanged: (value) {
+                      setState(() {
+                        _agreeUpdates = value ?? false;
+                      });
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    side: const BorderSide(color: Colors.grey),
+                    checkColor: Colors.white,
+                    activeColor: Colors.green,
                   ),
-                  side: const BorderSide(color: Colors.grey),
-                  checkColor: Colors.white,
-                  activeColor: Colors.green,
-                ),
-                const Expanded(
-                  child: Text(
-                    "I agree to receive product updates, announcements, and exclusive offers via email.",
-                    style: TextStyle(fontSize: 14),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Checkbox(
-                  value: _acceptTerms,
-                  onChanged: (value) {
-                    setState(() {
-                      _acceptTerms = value ?? false;
-                    });
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  side: const BorderSide(color: Colors.grey),
-                  checkColor: Colors.white,
-                  activeColor: Colors.green,
-                ),
-                Expanded(
-                  child: RichText(
-                    text: const TextSpan(
-                      text: "I accept the ",
-                      style: TextStyle(fontSize: 14, color: Colors.black),
-                      children: [
-                        TextSpan(
-                          text: "Terms of Use",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.green,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                        TextSpan(
-                          text: " and ",
-                        ),
-                        TextSpan(
-                          text: "Privacy Policy.",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.green,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ],
+                  const Expanded(
+                    child: Text(
+                      "I agree to receive product updates, announcements, and exclusive offers via email.",
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 40),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Checkbox(
+                    value: _acceptTerms,
+                    onChanged: (value) {
+                      setState(() {
+                        _acceptTerms = value ?? false;
+                      });
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    side: const BorderSide(color: Colors.grey),
+                    checkColor: Colors.white,
+                    activeColor: Colors.green,
+                  ),
+                  Expanded(
+                    child: RichText(
+                      text: const TextSpan(
+                        text: "I accept the ",
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                        children: [
+                          TextSpan(
+                            text: "Terms of Use",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.green,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                          TextSpan(
+                            text: " and ",
+                          ),
+                          TextSpan(
+                            text: "Privacy Policy.",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.green,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 40),
 
-            // Continue Button
-            AppButton(
-              buttonLabel: "Continue",
-              onclick: isFormComplete
-                  ? () =>
-                      HelperFunctions.routeReplacdTo(SuccessScreen(), context)
-                  : null,
-            ),
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  HelperFunctions.routePushTo(LoginPage(), context);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('Already have an account? ',
-                        style: TextStyle(color: Colors.black)),
-                    Text('Login',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary)),
-                  ],
+              // Continue Button
+              AppButton(
+                buttonLabel: "Continue",
+                onclick: isFormComplete
+                    ? () => HelperFunctions.routeReplacdTo(Succee(), context)
+                    : null,
+              ),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    HelperFunctions.routePushTo(LoginPage(), context);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Already have an account? ',
+                          style: TextStyle(color: Colors.black)),
+                      Text('Login',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
