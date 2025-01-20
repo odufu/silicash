@@ -9,14 +9,17 @@ class Succee extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SuccessScreen(
-      title: "Success!",
-      message: "Your operation was completed successfully.",
-      gifPath: "assets/images/appAssets/success2.gif",
-      onButtonPressed: () {
-        // Navigate to another screen
-        HelperFunctions.routeReplacdTo(LoginPage(), context);
-      },
+        body: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: SuccessScreen(
+        title: "Account Successfully Created",
+        message: "Your account has been successfully created.",
+        gifPath: "assets/images/appAssets/success2.gif",
+        onButtonPressed: () {
+          // Navigate to another screen
+          HelperFunctions.routeReplacdTo(LoginPage(), context);
+        },
+      ),
     ));
   }
 }

@@ -27,8 +27,8 @@ class SuccessScreen extends StatelessWidget {
             children: [
               Image.asset(
                 gifPath,
-                width: 120,
-                height: 120,
+                width: 350,
+                height: 350,
               ),
               const SizedBox(height: 20),
               Text(
@@ -39,7 +39,6 @@ class SuccessScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 10),
               Text(
                 message,
                 style: const TextStyle(color: Colors.grey),

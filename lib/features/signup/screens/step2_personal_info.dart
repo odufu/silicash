@@ -43,11 +43,11 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Form(
+          key: _formKey,
           child: Column(
             children: [
               const Row(
@@ -72,6 +72,7 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
               const SizedBox(height: 10),
 
               TextFormField(
+                autofillHints: [AutofillHints.givenName],
                 decoration: const InputDecoration(
                   labelText: "First Name",
                   border: OutlineInputBorder(),
@@ -90,6 +91,7 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
               ),
               const SizedBox(height: 10),
               TextFormField(
+                autofillHints: [AutofillHints.middleName],
                 decoration: const InputDecoration(
                   labelText: "Middle Name",
                   border: OutlineInputBorder(),
@@ -109,6 +111,7 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
               const SizedBox(height: 10),
 
               TextFormField(
+                autofillHints: [AutofillHints.familyName],
                 decoration: const InputDecoration(
                   labelText: "Last Name",
                   border: OutlineInputBorder(),
@@ -177,13 +180,16 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
               ),
               const SizedBox(height: 10),
               TextFormField(
+                autofillHints: [AutofillHints.email],
                 decoration: const InputDecoration(
                   labelText: "Email Address",
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) => _onFieldChanged(value, (v) => email = v),
               ),
-              const Spacer(),
+              const SizedBox(
+                height: 60,
+              ),
               AppButton(
                 buttonLabel: "Continue",
                 onclick: isFormComplete ? widget.onNext : null,
