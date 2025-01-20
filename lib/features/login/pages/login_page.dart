@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Biometric Authentication Failed")),
+        const SnackBar(content: Text("Biometric Authentication Failed")),
       );
     }
   }

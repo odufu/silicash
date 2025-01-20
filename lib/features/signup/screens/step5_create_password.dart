@@ -51,17 +51,17 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               "Create Your Password",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               "Make sure your password is strong and memorable.",
               style: TextStyle(color: Colors.grey),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
 
             // Password Input
             CostumPasswordInput(
@@ -75,7 +75,7 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Confirm Password Input
             CostumPasswordInput(
@@ -90,7 +90,7 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Gradient Checkboxes Section
             Row(
@@ -106,11 +106,11 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4.0),
                   ),
-                  side: BorderSide(color: Colors.grey),
+                  side: const BorderSide(color: Colors.grey),
                   checkColor: Colors.white,
                   activeColor: Colors.green,
                 ),
-                Expanded(
+                const Expanded(
                   child: Text(
                     "I agree to receive product updates, announcements, and exclusive offers via email.",
                     style: TextStyle(fontSize: 14),
@@ -131,13 +131,13 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4.0),
                   ),
-                  side: BorderSide(color: Colors.grey),
+                  side: const BorderSide(color: Colors.grey),
                   checkColor: Colors.white,
                   activeColor: Colors.green,
                 ),
                 Expanded(
                   child: RichText(
-                    text: TextSpan(
+                    text: const TextSpan(
                       text: "I accept the ",
                       style: TextStyle(fontSize: 14, color: Colors.black),
                       children: [
@@ -166,7 +166,7 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
 
             // Continue Button
             AppButton(

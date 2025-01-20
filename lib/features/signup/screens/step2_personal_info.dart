@@ -125,6 +125,7 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
             ),
             const SizedBox(height: 10),
             DropdownButtonFormField<String>(
+              icon: Image.asset("assets/images/appAssets/arrowDown.png"),
               decoration: const InputDecoration(
                 labelText: "Gender",
                 border: OutlineInputBorder(),

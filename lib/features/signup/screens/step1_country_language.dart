@@ -35,6 +35,7 @@ class _Step1CountryLanguageState extends State<Step1CountryLanguage> {
           ),
           SizedBox(height: 20),
           DropdownButtonFormField<String>(
+            icon: Image.asset("assets/images/appAssets/arrowDown.png"),
             decoration: InputDecoration(
               labelText: "Country",
               border: OutlineInputBorder(),
@@ -52,6 +53,7 @@ class _Step1CountryLanguageState extends State<Step1CountryLanguage> {
           ),
           SizedBox(height: 20),
           DropdownButtonFormField<String>(
+            icon: Image.asset("assets/images/appAssets/arrowDown.png"),
             decoration: InputDecoration(
               labelText: "Language",
               border: OutlineInputBorder(),

@@ -8,7 +8,7 @@ class CountryDropDown extends StatefulWidget {
 class _CountryDropDownState extends State<CountryDropDown> {
   // List of countries with flags and names
   final List<Map<String, String>> countries = [
-    {'name': 'United States USD', "flag": 'assets/images/countries/usa.png'},
+    {'name': 'US USD', "flag": 'assets/images/countries/usa.png'},
     {'name': 'Congo CDF', "flag": 'assets/images/countries/congo.png'},
     {'name': 'Nigeria NGN', "flag": 'assets/images/countries/nigeria.jpg'},
     {'name': 'Ghanna GHS', "flag": 'assets/images/countries/ghana.png'},

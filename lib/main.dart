@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Silicash',
       theme: lightMode,
-      home: HomePage(),
+      home: SplashScreen(),
     );
   }
 }
