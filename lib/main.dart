@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:silicash_mobile/features/home/pages/home_page.dart';
 import 'package:silicash_mobile/features/login/pages/login_page.dart';
 import 'package:silicash_mobile/features/welcome/pages/welcome_page.dart';
 import './core/theme/light_mode.dart';
@@ -19,10 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      
       title: 'Silicash',
       theme: lightMode,
-      home: SplashScreen(),
+      home: HomePage(),
     );
   }
 }

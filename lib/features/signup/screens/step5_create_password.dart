@@ -176,18 +176,19 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
                       HelperFunctions.routeReplacdTo(SuccessScreen(), context)
                   : null,
             ),
-
             Center(
               child: TextButton(
                 onPressed: () {
                   HelperFunctions.routePushTo(LoginPage(), context);
                 },
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Already have an account? ',
                         style: TextStyle(color: Colors.black)),
                     Text('Login',
                         style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.primary)),
                   ],
                 ),

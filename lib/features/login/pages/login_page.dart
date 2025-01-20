@@ -3,6 +3,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
 import 'package:silicash_mobile/core/widgets/costum_password_input.dart';
+import 'package:silicash_mobile/features/home/pages/home_page.dart';
 import 'package:silicash_mobile/features/signup/pages/signup_page.dart';
 import 'package:silicash_mobile/features/signup/widgets/annimated_circular_widget.dart';
 
@@ -126,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
             AppButton(
               buttonLabel: "Login",
               onclick: () {
-                print("Clicked Login button");
+                HelperFunctions.routeReplacdTo(HomePage(), context);
               },
             ),
             Center(

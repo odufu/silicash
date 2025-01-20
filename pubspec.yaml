@@ -39,6 +39,7 @@ dependencies:
   local_auth: ^2.3.0
   device_preview: ^1.2.0
   google_fonts: ^6.2.1
+  audioplayers: ^6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -76,7 +77,9 @@ flutter:
   assets:
     - assets/keys/
     - assets/images/
+    - assets/audio/
     - assets/images/brand/
+    - assets/images/countries/
     - assets/images/splash/
     - assets/images/appAssets/
     - assets/images/brand/logoColored.png
