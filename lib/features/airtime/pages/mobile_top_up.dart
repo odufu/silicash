@@ -110,11 +110,17 @@ class _MobileTopUpState extends State<MobileTopUp>
                         selectedNetwork = index;
                       });
                     },
-                    selectedNetwork: selectedNetwork, 
+                    selectedNetwork: selectedNetwork,
                   ),
                   DataPurchaseTab(
                     networks: networks,
                     networkColors: networkColors,
+                    networkImages: networkImages,
+                    onNetworkSelected: (index) {
+                      setState(() {
+                        selectedNetwork = index;
+                      });
+                    },
                     selectedNetwork: selectedNetwork,
                   ),
                 ],

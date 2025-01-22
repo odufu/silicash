@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class RecentActivityCard extends StatelessWidget {
+  final String title;
+
+  const RecentActivityCard({super.key, required this.title});
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -13,7 +16,7 @@ class RecentActivityCard extends StatelessWidget {
         backgroundColor: Colors.red.withOpacity(0.2),
         child: Image.asset("assets/images/appAssets/data.png"),
       ),
-      title: const Text("Airtime Top-up"),
+      title:  Text(title),
       subtitle: const Text("(080123456789)"),
       trailing: const Column(
         crossAxisAlignment: CrossAxisAlignment.end,

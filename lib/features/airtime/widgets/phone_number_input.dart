@@ -45,7 +45,8 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text("Permission Required"),
-          content: const Text("Please grant contacts access to select a contact."),
+          content:
+              const Text("Please grant contacts access to select a contact."),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
