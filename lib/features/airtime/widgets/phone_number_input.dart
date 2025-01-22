@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:contacts_service/contacts_service.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 
 class PhoneNumberInput extends StatefulWidget {
   @override
@@ -10,52 +10,64 @@ class PhoneNumberInput extends StatefulWidget {
 class _PhoneNumberInputState extends State<PhoneNumberInput> {
   final TextEditingController _phoneNumberController = TextEditingController();
 
-  // Function to request contact permissions
+  // Function to request contact permissions and fetch contacts
   Future<void> _selectContact() async {
-    if (await Permission.contacts.request().isGranted) {
+    if (await FlutterContacts.requestPermission()) {
       // Fetch contacts
-      Iterable<Contact> contacts = await ContactsService.getContacts();
+      List<Contact> contacts = await FlutterContacts.getContacts(withProperties: true);
 
       // Show contact selection dialog
-      showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return ListView(
-            children: contacts.map((contact) {
-              return ListTile(
-                title: Text(contact.displayName ?? "No Name"),
-                subtitle: contact.phones != null && contact.phones!.isNotEmpty
-                    ? Text(contact.phones!.first.value ?? "")
-                    : const Text("No Phone Number"),
-                onTap: () {
-                  // Populate phone number field
-                  if (contact.phones != null && contact.phones!.isNotEmpty) {
-                    _phoneNumberController.text = contact.phones!.first.value!;
-                  }
-                  Navigator.pop(context); // Close the modal
-                },
-              );
-            }).toList(),
-          );
-        },
-      );
+      if (contacts.isNotEmpty) {
+        showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return ListView.builder(
+              itemCount: contacts.length,
+              itemBuilder: (context, index) {
+                final contact = contacts[index];
+                final phoneNumbers = contact.phones;
+
+                return ListTile(
+                  title: Text(contact.displayName ?? "No Name"),
+                  subtitle: phoneNumbers.isNotEmpty
+                      ? Text(phoneNumbers.first.number)
+                      : const Text("No Phone Number"),
+                  onTap: () {
+                    // Populate phone number field
+                    if (phoneNumbers.isNotEmpty) {
+                      _phoneNumberController.text = phoneNumbers.first.number;
+                    }
+                    Navigator.pop(context); // Close the modal
+                  },
+                );
+              },
+            );
+          },
+        );
+      } else {
+        _showAlert("No Contacts", "No contacts were found in your phone.");
+      }
     } else {
-      // Show an alert if permissions are denied
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Permission Required"),
-          content:
-              const Text("Please grant contacts access to select a contact."),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
-            ),
-          ],
-        ),
-      );
+      // Handle denied permission
+      _showAlert("Permission Required",
+          "Please grant contacts access to select a contact.");
     }
+  }
+
+  void _showAlert(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

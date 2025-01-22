@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
 
 import '../pages/mobile_top_up.dart';
@@ -8,6 +9,7 @@ import '../widgets/network_selection.dart';
 import '../widgets/phone_number_input.dart';
 import '../widgets/recent_activity_card.dart';
 import '../widgets/top_up_option.dart';
+import 'proceed_to_topop.dart';
 
 class DataPurchaseTab extends StatefulWidget {
   final List<String> networks;
@@ -166,7 +168,9 @@ class _DataPurchaseTabState extends State<DataPurchaseTab> {
             width: double.infinity,
             child: AppButton(
               buttonLabel: "Continue",
-              onclick: () {},
+              onclick: () {
+                HelperFunctions.routePushNormalTo(BuyAirtimePage(), context);
+              },
             ),
           ),
         ],
