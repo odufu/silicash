@@ -1,9 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
+import 'package:silicash_mobile/features/signup/screens/success.dart';
 
 import '../../../core/widgets/costum_app_bar.dart';
 
-class BuyAirtimePage extends StatelessWidget {
+class BuyAirtimePage extends StatefulWidget {
+  @override
+  State<BuyAirtimePage> createState() => _BuyAirtimePageState();
+}
+
+class _BuyAirtimePageState extends State<BuyAirtimePage> {
+  final List<String> otpValues = List.filled(4, ""); // Stores the OTP digits
+
+  // Check if all OTP fields are filled
+  bool get isOtpComplete => otpValues.every((value) => value.isNotEmpty);
+
+  // Function to handle OTP input changes
+  void _onOtpChanged(String value, int index) {
+    setState(() {
+      otpValues[index] = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,37 +72,43 @@ class BuyAirtimePage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                4,
-                (index) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.grey, width: 1.5),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "4", // Replace with input from the user
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: List.generate(4, (index) {
+                return SizedBox(
+                  width: 40,
+                  child: TextFormField(
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {
+                        FocusScope.of(context).nextFocus();
+                      }
+                      _onOtpChanged(value, index);
+                    },
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    maxLength: 1,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: InputDecoration(
+                      counterText: "",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+              }),
             ),
-            Spacer(),
+            SizedBox(
+              height: 50,
+            ),
             SizedBox(
               width: double.infinity,
               child: AppButton(
                 buttonLabel: "Confirm",
-                onclick: () {},
+                onclick: isOtpComplete
+                    ? () {
+                        HelperFunctions.routePushNormalTo(Succee(title: "Airtime Purchase Success", message: "You have succesfully purchased a credit of 100000 Naira",), context);
+                      }
+                    : null,
               ),
             ),
             SizedBox(height: 20),

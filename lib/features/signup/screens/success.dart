@@ -6,14 +6,22 @@ import 'package:silicash_mobile/features/login/pages/login_page.dart';
 import '../../../core/pages/success_screen.dart';
 
 class Succee extends StatelessWidget {
+  final String title;
+  final String message;
+
+  const Succee({
+    super.key,
+    required this.title,
+    required this.message,
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: SuccessScreen(
-        title: "Account Successfully Created",
-        message: "Your account has been successfully created.",
+        title: title,
+        message: message,
         gifPath: "assets/images/appAssets/success2.gif",
         onButtonPressed: () {
           // Navigate to another screen
