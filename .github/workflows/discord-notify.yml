@@ -1,0 +1,64 @@
+name: 🚨 GitHub Activity Alert 🚨
+
+on:
+  push:
+    branches:
+      - '**'  # Notify on any branch push (wildcard for all branches)
+  pull_request:
+    types: [opened, closed, merged]
+  issues:
+    types: [opened, closed, reopened]
+  release:
+    types: [published]
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🎯 Send Notification to Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+  curl -H "Content-Type: application/json" \
+       -X POST \
+       -d '{
+         "content": "🚀 **${{ github.actor }}** just made a move in **${{ github.repository }}**!",
+         "embeds": [
+           {
+             "title": "🔔 GitHub Event: `${{ github.event_name }}`",
+             "description": "📝 Commit Message: `${{ github.event.head_commit.message || 'N/A' }}`",
+             "url": "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}",
+             "color": 3066993,
+             "thumbnail": {
+               "url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+             },
+             "fields": [
+               {
+                 "name": "📂 Repository",
+                 "value": "[${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})",
+                 "inline": true
+               },
+               {
+                 "name": "👤 Triggered By",
+                 "value": "[${{ github.actor }}](${{ github.server_url }}/${{ github.actor }})",
+                 "inline": true
+               },
+               {
+                 "name": "🔗 Commit URL",
+                 "value": "[Click here to view](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})",
+                 "inline": false
+               },
+               {
+                 "name": "📅 Event Time",
+                 "value": "${{ github.event.head_commit.timestamp || 'N/A' }}",
+                 "inline": false
+               }
+             ],
+             "footer": {
+               "text": "🚀 Stay tuned for more updates!",
+               "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+             }
+           }
+         ]
+       }' "$DISCORD_WEBHOOK"
