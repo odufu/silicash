@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:silicash_mobile/core/utils/helper_functions.dart';
+import 'package:silicash_mobile/features/airtime/pages/mobile_top_up.dart';
 
 class OtherServices extends StatelessWidget {
   @override
@@ -17,14 +19,14 @@ class OtherServices extends StatelessWidget {
             mainAxisSpacing: 16.0,
             shrinkWrap: true, // Ensures the grid takes only necessary space
             physics:
-                NeverScrollableScrollPhysics(), // Prevents independent scrolling
+                const NeverScrollableScrollPhysics(), // Prevents independent scrolling
             children: [
               _buildCardWithTap(
                 title: 'Mobile TopUp',
                 imagePath: 'assets/images/appAssets/mobileTopup.png',
                 backgroundColor: Colors.green[100],
                 onTap: () {
-                  print('Mobile TopUp tapped');
+                  HelperFunctions.routePushNormalTo(MobileTopUp(), context);
                 },
               ),
               _buildCardWithTap(

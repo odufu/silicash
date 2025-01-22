@@ -22,7 +22,7 @@ class _DarkCountryDropDownState extends State<DarkCountryDropDown> {
     return Container(
       height: 41,
       width: 200,
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.secondary.withOpacity(0),
           borderRadius: BorderRadius.circular(25),
@@ -32,12 +32,12 @@ class _DarkCountryDropDownState extends State<DarkCountryDropDown> {
           isExpanded: true,
           value: selectedCountry,
           dropdownColor: Theme.of(context).colorScheme.primary,
-          hint: Text(
+          hint: const Text(
             'Select a Country',
             style: TextStyle(color: Colors.white),
           ),
-          icon: Icon(Icons.arrow_drop_down),
-          style: TextStyle(color: Colors.white, fontSize: 16),
+          icon: const Icon(Icons.arrow_drop_down),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
           items: countries.map((country) {
             return DropdownMenuItem<String>(
               value: country['name'],
@@ -48,9 +48,9 @@ class _DarkCountryDropDownState extends State<DarkCountryDropDown> {
                     width: 16,
                     height: 16,
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Text(country['name']!),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                 ],
               ),
             );

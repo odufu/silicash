@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-ThemeData lightMode = ThemeData(
+ThemeData darkMode = ThemeData(
   brightness: Brightness.light,
   primaryColor: const Color(0xFF5E9024), // Main green color
   scaffoldBackgroundColor: Colors.white,
@@ -12,18 +12,17 @@ ThemeData lightMode = ThemeData(
   ),
   colorScheme: ColorScheme(
     brightness: Brightness.light,
-    primary: const Color(0xFF5E9024), // Bright green
+    primary: const Color.fromARGB(255, 0, 0, 0), // Bright green
     onPrimary: Colors.white, // Text/icons on primary
-    secondary: const Color(0xFFCFE939), // Accent yellow-green
+    secondary: const Color.fromARGB(255, 28, 32, 7), // Accent yellow-green
     onSecondary: Colors.white, // Text/icons on secondary
-    tertiary: const Color(0xFF365314), // Dark green for tertiary use
+    tertiary: const Color.fromARGB(255, 0, 0, 0), // Dark green for tertiary use
     onTertiary: Colors.white,
     error: Colors.red,
     onError: Colors.white,
-    surface: const Color(0xFFF5F5F5), // Light surface color
+    surface: const Color.fromARGB(255, 0, 0, 0), // Light surface color
     onSurface: Colors.grey.shade800,
   ),
-
   textTheme: GoogleFonts.ralewayTextTheme(),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
