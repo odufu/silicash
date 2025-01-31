@@ -6,6 +6,7 @@ import '../screens/home_screen2.dart';
 
 class HomePage extends StatefulWidget {
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
@@ -16,8 +17,8 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _screens = [
     HomeScreen(),
     HomeScreen2(),
-    Center(child: Text('Payments Screen')),
-    Center(child: Text('More Screen')),
+    const Center(child: Text('Payments Screen')),
+    const Center(child: Text('More Screen')),
   ];
 
 // Initialize the audio player (can be made static for reuse across taps)
@@ -55,7 +56,7 @@ class _HomePageState extends State<HomePage> {
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),
                 blurRadius: 10,
-                offset: Offset(0, -2),
+                offset: const Offset(0, -2),
               ),
             ],
           ),
@@ -119,7 +120,7 @@ class _HomePageState extends State<HomePage> {
     });
     _pageController.animateToPage(
       index,
-      duration: Duration(milliseconds: 450),
+      duration: const Duration(milliseconds: 450),
       curve: Curves.easeInOut,
     );
   }
@@ -182,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
                         label,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.green,
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
@@ -227,7 +228,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(left: 8),
                       child: Text(
                         label,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.green,
                           fontWeight: FontWeight.bold,
                         ),

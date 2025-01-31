@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:silicash_mobile/core/utils/helper_functions.dart';
+import 'package:silicash_mobile/features/home/pages/statement_page.dart';
 import 'package:silicash_mobile/features/home/widgets/country_drop_down.dart';
 import 'package:silicash_mobile/features/home/widgets/dark_country_drop_down.dart';
 import 'package:silicash_mobile/features/home/widgets/other_services.dart';
 import 'package:silicash_mobile/features/home/widgets/transaction_card.dart';
+
+import '../pages/account_details_page.dart';
 
 class HomeScreen2 extends StatefulWidget {
   @override
@@ -11,6 +15,63 @@ class HomeScreen2 extends StatefulWidget {
 
 class _HomeScreen2State extends State<HomeScreen2> {
   bool accounIsVisible = false;
+
+  void _showBottomModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading:
+                    Image.asset("assets/images/appAssets/accountStatement.png"),
+                title: Text('Account Statement'),
+                onTap: () {
+                  // Handle Account Statement action
+
+                  Navigator.pop(context);
+                  HelperFunctions.routePushNormalTo(
+                      StatementOfAccountPage(), context);
+                },
+              ),
+              ListTile(
+                leading:
+                    Image.asset("assets/images/appAssets/accountDetails.png"),
+                title: Text('Account Details'),
+                onTap: () {
+                  // Handle Account Details action
+                  Navigator.pop(context);
+                  HelperFunctions.routePushNormalTo(
+                      AccountDetailsPage(), context);
+                },
+              ),
+              ListTile(
+                leading:
+                    Image.asset("assets/images/appAssets/cardStatement.png"),
+                title: Text('Card Statement'),
+                onTap: () {
+                  // Handle Card Statement action
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Image.asset("assets/images/appAssets/deleteCard.png"),
+                title: Text('Delete Virtual Card'),
+                onTap: () {
+                  // Handle Delete Virtual Card action
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -97,7 +158,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
                           children: [
                             DarkCountryDropDown(),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: _showBottomModal,
                               icon: Image.asset(
                                   "assets/images/appAssets/moreRounded.png"),
                             )
@@ -106,38 +167,44 @@ class _HomeScreen2State extends State<HomeScreen2> {
                         const SizedBox(height: 8),
                         Row(
                           children: [
-                            accounIsVisible
-                                ? const Text(
-                                    '₦42,453.00',
-                                    style: TextStyle(
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                : const Text(
-                                    '***************',
-                                    style: TextStyle(
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                            AnimatedCrossFade(
+                              duration: const Duration(milliseconds: 300),
+                              firstChild: const Text(
+                                '₦42,453.00',
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              secondChild: const Text(
+                                '***************',
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              crossFadeState: accounIsVisible
+                                  ? CrossFadeState.showFirst
+                                  : CrossFadeState.showSecond,
+                            ),
                             IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    accounIsVisible = !accounIsVisible;
-                                  });
-                                },
-                                icon: accounIsVisible
-                                    ? Image.asset(
-                                        "assets/images/appAssets/visibility.png",
-                                        color: Colors.white,
-                                      )
-                                    : Image.asset(
-                                        "assets/images/appAssets/visibility-off.png",
-                                        color: Colors.white,
-                                      ))
+                              onPressed: () {
+                                setState(() {
+                                  accounIsVisible = !accounIsVisible;
+                                });
+                              },
+                              icon: accounIsVisible
+                                  ? Image.asset(
+                                      "assets/images/appAssets/visibility.png",
+                                      color: Colors.white,
+                                    )
+                                  : Image.asset(
+                                      "assets/images/appAssets/visibility-off.png",
+                                      color: Colors.white,
+                                    ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 8),
