@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/features/airtime/pages/mobile_top_up.dart';
+import 'package:silicash_mobile/features/pay_bills/presentation/pages/pay_bills.dart';
 
 class OtherServices extends StatelessWidget {
   @override
@@ -34,7 +35,7 @@ class OtherServices extends StatelessWidget {
                 imagePath: 'assets/images/appAssets/payBills.png',
                 backgroundColor: Colors.red[100],
                 onTap: () {
-                  print('Pay Bills tapped');
+                  HelperFunctions.routePushNormalTo(PayBills(), context);
                 },
               ),
               _buildCardWithTap(
