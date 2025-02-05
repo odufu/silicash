@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
 import 'package:silicash_mobile/core/widgets/costum_password_input.dart';
+import 'package:silicash_mobile/features/signup/screens/success.dart';
 
 import '../../../core/utils/helper_functions.dart';
 import '../../login/pages/login_page.dart';
@@ -94,9 +95,13 @@ class _Step4CreatePinScreenState extends State<Step4CreatePinScreen> {
               AppButton(
                   buttonLabel: "Continue",
                   onclick: isFormComplete
-                      ? () {
-                          widget.onNext();
-                        }
+                      ? () => HelperFunctions.routeReplacdTo(
+                          Succee(
+                            title: "Account Successfully Created",
+                            message:
+                                "Your account has been successfully created.",
+                          ),
+                          context)
                       : null),
               Center(
                 child: TextButton(

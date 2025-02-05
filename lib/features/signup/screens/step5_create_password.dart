@@ -173,15 +173,7 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
               // Continue Button
               AppButton(
                 buttonLabel: "Continue",
-                onclick: isFormComplete
-                    ? () => HelperFunctions.routeReplacdTo(
-                        Succee(
-                          title: "Account Created Successfully",
-                          message:
-                              "Your account have been created successfully, you can proceed to login",
-                        ),
-                        context)
-                    : null,
+                onclick: isFormComplete ? widget.onNext : null,
               ),
               Center(
                 child: TextButton(

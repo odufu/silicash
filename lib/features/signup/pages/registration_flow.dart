@@ -62,9 +62,9 @@ class _RegistrationFlowState extends State<RegistrationFlow> {
           children: [
             Step1CountryLanguage(onNext: _nextPage),
             Step2PersonalInfo(onNext: _nextPage),
+            Step5CreatePasswordScreen(onNext: _nextPage),
             Step3OtpScreen(onNext: _nextPage),
             Step4CreatePinScreen(onNext: _nextPage),
-            Step5CreatePasswordScreen(onNext: _nextPage),
           ],
           //shhthh
         ),

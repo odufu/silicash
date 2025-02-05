@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../core/utils/helper_functions.dart';
 import '../../login/pages/login_page.dart';
@@ -15,29 +16,12 @@ class Step2PersonalInfo extends StatefulWidget {
 
 class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
   final _formKey = GlobalKey<FormState>();
-  String? firstName;
-  String? middleName;
-  String? lastName;
-  String? gender;
-  String? email;
+  bool isFormValid = false;
 
-  // Function to check if all fields are filled
-  bool get isFormComplete =>
-      firstName != null &&
-      firstName!.isNotEmpty &&
-      middleName != null &&
-      middleName!.isNotEmpty &&
-      lastName != null &&
-      lastName!.isNotEmpty &&
-      gender != null &&
-      gender!.isNotEmpty &&
-      email != null &&
-      email!.isNotEmpty;
-
-  // Function to handle input changes
-  void _onFieldChanged(String? value, Function(String?) updateField) {
+  // Function to validate the entire form
+  void validateForm() {
     setState(() {
-      updateField(value);
+      isFormValid = _formKey.currentState?.validate() ?? false;
     });
   }
 
@@ -61,6 +45,7 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
                   ),
                 ],
               ),
+              const SizedBox(height: 20),
               const Row(
                 children: [
                   Text(
@@ -70,15 +55,19 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
                 ],
               ),
               const SizedBox(height: 10),
-
               TextFormField(
                 autofillHints: [AutofillHints.givenName],
                 decoration: const InputDecoration(
                   labelText: "First Name",
                   border: OutlineInputBorder(),
                 ),
-                onChanged: (value) =>
-                    _onFieldChanged(value, (v) => firstName = v),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'First Name is required';
+                  }
+                  return null;
+                },
+                onChanged: (value) => validateForm(),
               ),
               const SizedBox(height: 20),
               const Row(
@@ -96,31 +85,34 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
                   labelText: "Middle Name",
                   border: OutlineInputBorder(),
                 ),
-                onChanged: (value) =>
-                    _onFieldChanged(value, (v) => middleName = v),
+                onChanged: (value) => validateForm(),
               ),
               const SizedBox(height: 20),
               const Row(
                 children: [
                   Text(
-                    "Last Name",
+                    "Last Name (as seen on your ID)",
                     style: TextStyle(),
                   ),
                 ],
               ),
               const SizedBox(height: 10),
-
               TextFormField(
                 autofillHints: [AutofillHints.familyName],
                 decoration: const InputDecoration(
                   labelText: "Last Name",
                   border: OutlineInputBorder(),
                 ),
-                onChanged: (value) =>
-                    _onFieldChanged(value, (v) => lastName = v),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Last Name is required';
+                  }
+                  return null;
+                },
+                onChanged: (value) => validateForm(),
               ),
               const SizedBox(height: 20),
-              Row(
+              const Row(
                 children: [
                   Text(
                     "Gender",
@@ -139,38 +131,16 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
                     .map((genderOption) => DropdownMenuItem(
                         value: genderOption, child: Text(genderOption)))
                     .toList(),
-                onChanged: (value) => _onFieldChanged(value, (v) => gender = v),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Gender is required';
+                  }
+                  return null;
+                },
+                onChanged: (value) => validateForm(),
               ),
-              // const SizedBox(height: 20),
-              // Row(
-              //   children: [
-              //     Expanded(
-              //       flex: 2,
-              //       child: TextFormField(
-              //         decoration: const InputDecoration(
-              //           labelText: "Country Code",
-              //           border: OutlineInputBorder(),
-              //         ),
-              //         onChanged: (value) =>
-              //             _onFieldChanged(value, (v) => countryCode = v),
-              //       ),
-              //     ),
-              //     const SizedBox(width: 10),
-              //     Expanded(
-              //       flex: 5,
-              //       child: TextFormField(
-              //         decoration: const InputDecoration(
-              //           labelText: "Phone Number",
-              //           border: OutlineInputBorder(),
-              //         ),
-              //         onChanged: (value) =>
-              //             _onFieldChanged(value, (v) => phoneNumber = v),
-              //       ),
-              //     ),
-              //   ],
-              // ),
               const SizedBox(height: 20),
-              Row(
+              const Row(
                 children: [
                   Text(
                     "Email Address",
@@ -185,14 +155,68 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
                   labelText: "Email Address",
                   border: OutlineInputBorder(),
                 ),
-                onChanged: (value) => _onFieldChanged(value, (v) => email = v),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Email is required';
+                  } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                    return 'Enter a valid email address';
+                  }
+                  return null;
+                },
+                onChanged: (value) => validateForm(),
+              ),
+              const SizedBox(height: 20),
+              const Row(
+                children: [
+                  Text(
+                    "Phone Number",
+                    style: TextStyle(),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              IntlPhoneField(
+                decoration: InputDecoration(
+                  labelText: 'Phone Number',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide(),
+                  ),
+                ),
+                initialCountryCode: 'NG', // Nigeria as the default country
+                validator: (phone) {
+                  if (phone == null || phone == "") {
+                    return 'Phone number is required';
+                  }
+                  return null;
+                },
+                onChanged: (phone) {
+                  validateForm();
+                },
+              ),
+              const SizedBox(height: 20),
+              const Row(
+                children: [
+                  Text(
+                    "Referral Code (Optional)",
+                    style: TextStyle(),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: "Referral code",
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) => validateForm(),
               ),
               const SizedBox(
                 height: 60,
               ),
               AppButton(
                 buttonLabel: "Continue",
-                onclick: isFormComplete ? widget.onNext : null,
+                onclick: isFormValid ? widget.onNext : null,
               ),
               Center(
                 child: TextButton(

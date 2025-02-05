@@ -45,7 +45,7 @@ class _StatementOfAccountPageState extends State<StatementOfAccountPage> {
           children: [
             Text(
               'Statement of account',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+              style:  TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
             SizedBox(height: 8),
             Text(

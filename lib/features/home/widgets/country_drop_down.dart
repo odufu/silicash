@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 
 class CountryDropDown extends StatefulWidget {
+  String? selectedCountry;
+  Color? backgroundColor;
+  Color? borderColor;
+
+  CountryDropDown({
+    this.backgroundColor,
+    this.borderColor,
+    this.selectedCountry,
+    super.key,
+  });
+
   @override
   _CountryDropDownState createState() => _CountryDropDownState();
 }
@@ -15,8 +26,6 @@ class _CountryDropDownState extends State<CountryDropDown> {
     {'name': 'UK GBP', "flag": 'assets/images/countries/uk.png'},
   ];
 
-  String? selectedCountry;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,15 +33,17 @@ class _CountryDropDownState extends State<CountryDropDown> {
       width: 200,
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary.withOpacity(.2),
-        borderRadius: BorderRadius.circular(25),
-      ),
+          color: widget.backgroundColor ??
+              Theme.of(context).colorScheme.secondary.withOpacity(.2),
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(
+              color: widget.borderColor ?? Colors.transparent, width: 1)),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           isExpanded: true,
-          value: selectedCountry,
-          hint: Text('Select a Country'),
-          icon: Icon(Icons.arrow_drop_down),
+          value: widget.selectedCountry,
+          hint: Text('Select Currency'),
+          icon: Image.asset("assets/images/appAssets/arrowDown.png"),
           style: TextStyle(color: Colors.black, fontSize: 16),
           items: countries.map((country) {
             return DropdownMenuItem<String>(
@@ -53,7 +64,7 @@ class _CountryDropDownState extends State<CountryDropDown> {
           }).toList(),
           onChanged: (value) {
             setState(() {
-              selectedCountry = value;
+              widget.selectedCountry = value;
             });
           },
         ),
