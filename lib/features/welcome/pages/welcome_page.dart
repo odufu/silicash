@@ -6,6 +6,9 @@ import 'package:silicash_mobile/core/widgets/costum_text_button.dart';
 import 'package:silicash_mobile/features/login/pages/login_page.dart';
 import 'package:silicash_mobile/features/signup/pages/signup_page.dart';
 
+import '../../../core/utils/constants.dart';
+import '../../login/services/login_service.dart';
+
 class WelcomePage extends StatefulWidget {
   @override
   _WelcomePageState createState() => _WelcomePageState();
@@ -147,8 +150,11 @@ class _WelcomePageState extends State<WelcomePage> {
                 const SizedBox(height: 16),
                 CostumTextButton(
                   buttonLabel: "Login your account",
-                  onclick: () =>
-                      HelperFunctions.routeReplacdTo(LoginPage(), context),
+                  onclick: () => HelperFunctions.routeReplacdTo(
+                      LoginPage(
+                        loginService: LoginService(Constants.baseUrl),
+                      ),
+                      context),
                 )
               ],
             ),

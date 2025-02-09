@@ -1,0 +1,40 @@
+openapi: 3.0.0
+
+info:
+  title: SILICASH App
+  description: The API for Salis App
+  version: "00.1"
+  contact:
+    name: Emerald Codelines
+    email: joel.odufu@gmail.com
+
+servers:
+  - url: http://localhost:3000
+    description: The Home Page for PROPERTY
+
+paths:
+  /api/v1/auth/email/verify:
+    post:
+      tags:
+        - Authentication
+      summary: Verify email with code
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                code:
+                  type: string
+                  example: "123456"
+              required:
+                - email
+                - code
+      responses:
+        '200':
+          description: Email verified successfully
+        # Add other possible responses

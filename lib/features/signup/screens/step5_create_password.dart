@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:silicash_mobile/core/utils/constants.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
-import 'package:silicash_mobile/features/signup/screens/success.dart';
-
-import '../../../core/utils/helper_functions.dart';
-import '../../../core/widgets/costum_password_input.dart';
+import 'package:silicash_mobile/core/utils/helper_functions.dart';
+import 'package:silicash_mobile/core/widgets/costum_password_input.dart';
 import '../../login/pages/login_page.dart';
+import '../../login/services/login_service.dart';
+import '../provider/registration_provider.dart';
+import '../services/registration_service.dart'; // Make sure to import your service
 
 class Step5CreatePasswordScreen extends StatefulWidget {
   final VoidCallback onNext;
 
-  Step5CreatePasswordScreen({required this.onNext});
+  const Step5CreatePasswordScreen({Key? key, required this.onNext})
+      : super(key: key);
 
   @override
   State<Step5CreatePasswordScreen> createState() =>
@@ -24,22 +28,79 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   String? password;
   String? confirmPassword;
+  String? passwordError;
 
-  // Function to check if all fields are filled
-  bool get isFormComplete =>
-      password != null &&
-      password!.isNotEmpty &&
-      confirmPassword != null &&
-      confirmPassword!.isNotEmpty &&
-      password == confirmPassword &&
-      _acceptTerms != false &&
-      _agreeUpdates != false;
+  /// Validate the password meets:
+  /// - Minimum 8 characters,
+  /// - Mixed case,
+  /// - At least one number and one symbol.
+  bool isPasswordValid(String password) {
+    final passwordRegex = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$',
+    );
+    return passwordRegex.hasMatch(password);
+  }
 
-  // Function to handle input changes
-  void _onFieldChanged(String? value, Function(String?) updateField) {
+  bool get isFormComplete {
+    return password != null &&
+        confirmPassword != null &&
+        password!.isNotEmpty &&
+        confirmPassword!.isNotEmpty &&
+        password == confirmPassword &&
+        isPasswordValid(password!) &&
+        _agreeUpdates &&
+        _acceptTerms;
+  }
+
+  // Update password in local state and provider
+  void _onPasswordChanged(String value) {
     setState(() {
-      updateField(value);
+      password = value;
+      if (password!.isNotEmpty && !isPasswordValid(password!)) {
+        passwordError =
+            "Password must be at least 8 characters, include mixed case, a number, and a symbol.";
+      } else {
+        passwordError = null;
+      }
     });
+    Provider.of<RegistrationProvider>(context, listen: false)
+        .setPassword(value);
+  }
+
+  void _onConfirmPasswordChanged(String value) {
+    setState(() {
+      confirmPassword = value;
+    });
+  }
+
+  /// This function is called when the Continue button is pressed.
+  /// It submits all registration details via the RegistrationService.
+  Future<void> _onContinue() async {
+    if (isFormComplete) {
+      // Retrieve your registration provider instance.
+      final registrationProvider =
+          Provider.of<RegistrationProvider>(context, listen: false);
+
+      // Instantiate the service with your base URL.
+      // Replace 'https://your.api.url' with your actual base URL.
+      final registrationService =
+          RegistrationService(baseUrl: Constants.baseUrl);
+
+      try {
+        // Submit registration data as form data.
+        await registrationService.submitRegistration(registrationProvider);
+        // If successful, show a success message and move to OTP stage.
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Registration successful!')),
+        );
+        widget.onNext(); // Navigate to the OTP verification step.
+      } catch (error) {
+        // On failure, display an error message.
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Registration failed: $error')),
+        );
+      }
+    }
   }
 
   @override
@@ -63,12 +124,11 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
                 style: TextStyle(color: Colors.grey),
               ),
               const SizedBox(height: 40),
-
               // Password Input
               CostumPasswordInput(
-                hint: "Enter at list 8 characters",
-                onChanged: (value) =>
-                    _onFieldChanged(value, (v) => password = v),
+                hint:
+                    "At least 8 characters, mixed case, one number, and one symbol",
+                onChanged: _onPasswordChanged,
                 label: "Enter a Password",
                 isObscured: _isObscured,
                 onPressed: () {
@@ -77,14 +137,21 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
                   });
                 },
               ),
+              // Display password error if exists
+              if (passwordError != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    passwordError!,
+                    style: const TextStyle(color: Colors.red, fontSize: 12),
+                  ),
+                ),
               const SizedBox(height: 20),
-
               // Confirm Password Input
               CostumPasswordInput(
                 hint: "Enter the same password",
                 label: "Confirm Password",
-                onChanged: (value) =>
-                    _onFieldChanged(value, (v) => confirmPassword = v),
+                onChanged: _onConfirmPasswordChanged,
                 isObscured: _isObscured,
                 onPressed: () {
                   setState(() {
@@ -93,8 +160,7 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
                 },
               ),
               const SizedBox(height: 20),
-
-              // Gradient Checkboxes Section
+              // Checkboxes Section
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -169,16 +235,19 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
                 ],
               ),
               const SizedBox(height: 40),
-
               // Continue Button
               AppButton(
                 buttonLabel: "Continue",
-                onclick: isFormComplete ? widget.onNext : null,
+                onclick: isFormComplete ? _onContinue : null,
               ),
               Center(
                 child: TextButton(
                   onPressed: () {
-                    HelperFunctions.routePushTo(LoginPage(), context);
+                    HelperFunctions.routePushTo(
+                        LoginPage(
+                          loginService: LoginService(Constants.baseUrl),
+                        ),
+                        context);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

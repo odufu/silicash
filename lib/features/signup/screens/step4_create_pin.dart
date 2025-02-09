@@ -3,8 +3,10 @@ import 'package:silicash_mobile/core/widgets/app_button.dart';
 import 'package:silicash_mobile/core/widgets/costum_password_input.dart';
 import 'package:silicash_mobile/features/signup/screens/success.dart';
 
+import '../../../core/utils/constants.dart';
 import '../../../core/utils/helper_functions.dart';
 import '../../login/pages/login_page.dart';
+import '../../login/services/login_service.dart';
 
 class Step4CreatePinScreen extends StatefulWidget {
   final VoidCallback onNext;
@@ -106,7 +108,7 @@ class _Step4CreatePinScreenState extends State<Step4CreatePinScreen> {
               Center(
                 child: TextButton(
                   onPressed: () {
-                    HelperFunctions.routePushTo(LoginPage(), context);
+                    HelperFunctions.routePushTo(LoginPage(loginService: LoginService(Constants.baseUrl),), context);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

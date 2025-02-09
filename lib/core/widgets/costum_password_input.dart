@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CostumPasswordInput extends StatelessWidget {
   const CostumPasswordInput(
       {super.key,
       this.confirmPasswordController,
+      this.passwordController,
       required bool isObscured,
       required this.label,
       required this.hint,
@@ -17,6 +19,7 @@ class CostumPasswordInput extends StatelessWidget {
   final bool _isObscured;
   final String label;
   final String hint;
+  final TextEditingController? passwordController;
   final TextInputType? keyboardType;
   final int? maxLength;
   final void Function()? onPressed;

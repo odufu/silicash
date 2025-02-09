@@ -4,6 +4,8 @@ import 'package:silicash_mobile/core/widgets/app_button.dart';
 import 'package:silicash_mobile/features/login/pages/login_page.dart';
 
 import '../../../core/pages/success_screen.dart';
+import '../../../core/utils/constants.dart';
+import '../../login/services/login_service.dart';
 
 class Succee extends StatelessWidget {
   final String title;
@@ -25,7 +27,11 @@ class Succee extends StatelessWidget {
         gifPath: "assets/images/appAssets/success2.gif",
         onButtonPressed: () {
           // Navigate to another screen
-          HelperFunctions.routeReplacdTo(LoginPage(), context);
+          HelperFunctions.routeReplacdTo(
+              LoginPage(
+                loginService: LoginService(Constants.baseUrl),
+              ),
+              context);
         },
       ),
     ));
