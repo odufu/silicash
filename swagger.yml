@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: SILICASH App
-  description: The API for Salis App
+  description: The API for SILICASH APP
   version: "00.1"
   contact:
     name: Emerald Codelines

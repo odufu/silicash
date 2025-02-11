@@ -29,7 +29,7 @@ class CostumPasswordInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: onChanged,
-      controller: confirmPasswordController,
+      controller: passwordController ?? confirmPasswordController,
       keyboardType: keyboardType,
       maxLength: maxLength,
       decoration: InputDecoration(

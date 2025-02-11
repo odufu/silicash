@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
@@ -11,7 +12,7 @@ import '../services/login_service.dart';
 class LoginPage extends StatefulWidget {
   final LoginService loginService;
 
-  const LoginPage({required this.loginService});
+  const LoginPage({required this.loginService, Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -20,80 +21,119 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isObscured = true; // Controls visibility of the password field
+  final LocalAuthentication _auth = LocalAuthentication();
+  final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
+  bool _isObscured = true;
   bool _isLoading = false;
-  final LocalAuthentication auth =
-      LocalAuthentication(); // For biometric authentication
 
   @override
   void initState() {
     super.initState();
 
-    // Access RegistrationProvider to prepopulate email and password
-    final registrationProvider =
-        Provider.of<RegistrationProvider>(context, listen: false);
-    if (registrationProvider.email != null) {
-      _emailController.text = registrationProvider.email!;
-    }
-    if (registrationProvider.password != null) {
-      _passwordController.text = registrationProvider.password!;
-    }
+    // Prepopulate email and password if available from the provider.
+    // (For initial login you might also prepopulate from secure storage if desired.)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final registrationProvider =
+          Provider.of<RegistrationProvider>(context, listen: false);
+      _emailController.text = registrationProvider.email ?? '';
+      _passwordController.text = registrationProvider.password ?? '';
+    });
   }
 
+  /// Stores the email and password securely.
+  Future<void> _storeCredentials() async {
+    await _secureStorage.write(
+        key: 'email', value: _emailController.text.trim());
+    await _secureStorage.write(
+        key: 'password', value: _passwordController.text);
+  }
+
+  /// Retrieves stored credentials and sets the text controllers.
+  /// Returns true if both values were found.
+  Future<bool> _retrieveCredentials() async {
+    String? email = await _secureStorage.read(key: 'email');
+    String? password = await _secureStorage.read(key: 'password');
+    if (email != null && password != null) {
+      _emailController.text = email;
+      _passwordController.text = password;
+      return true;
+    }
+    return false;
+  }
+
+  /// Authenticates the user with biometrics and then automatically logs in using saved credentials.
   Future<void> _authenticateWithBiometrics() async {
-    bool authenticated = false;
     try {
-      authenticated = await auth.authenticate(
-        localizedReason: 'Confirm fingerprint to continue',
+      final isAuthenticated = await _auth.authenticate(
+        localizedReason: 'Use your biometrics to log in',
         options: const AuthenticationOptions(
           useErrorDialogs: true,
           stickyAuth: true,
         ),
       );
-    } catch (e) {
-      print("Error during biometric authentication: $e");
-    }
 
-    if (authenticated) {
-      // Perform login or navigate to the next screen
+      if (isAuthenticated) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Biometric Authentication Successful")),
+        );
+        // Retrieve credentials from secure storage.
+        bool credentialsRetrieved = await _retrieveCredentials();
+        if (credentialsRetrieved &&
+            _emailController.text.isNotEmpty &&
+            _passwordController.text.isNotEmpty) {
+          await _handleLogin();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text("No stored credentials. Please login manually.")),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Biometric Authentication Failed")),
+        );
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Biometric Authentication Successful")),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Biometric Authentication Failed")),
+        SnackBar(content: Text("Error during biometric authentication: $e")),
       );
     }
   }
 
+  /// Handles login using email and password.
+  /// On success, credentials are saved securely for future biometric login.
   Future<void> _handleLogin() async {
     setState(() {
       _isLoading = true;
     });
 
-    // Call the login service
-    final result = await widget.loginService.login(
-      email: _emailController.text.trim(),
-      password: _passwordController.text,
-    );
+    try {
+      final result = await widget.loginService.login(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
 
-    setState(() {
-      _isLoading = false;
-    });
+      if (result['success']) {
+        // Save the credentials in secure storage so that biometric login can use them later.
+        await _storeCredentials();
 
-    if (result['success']) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Login successful!")),
-      );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => HomePage()),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result['message'] ?? "Login failed")),
-      );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Login successful!")),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => HomePage()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(result['message'] ?? "Login failed")),
+        );
+      }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -101,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,13 +152,9 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 40),
-            const Row(
-              children: [
-                Text(
-                  "Email Address",
-                  style: TextStyle(),
-                ),
-              ],
+            const Text(
+              "Email Address",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             TextField(
@@ -130,13 +166,9 @@ class _LoginPageState extends State<LoginPage> {
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 20),
-            const Row(
-              children: [
-                Text(
-                  "Password",
-                  style: TextStyle(),
-                ),
-              ],
+            const Text(
+              "Password",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             CostumPasswordInput(
@@ -147,9 +179,6 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () {
                 setState(() {
                   _isObscured = !_isObscured;
-                  _passwordController.text = _passwordController.text.isEmpty
-                      ? " "
-                      : _passwordController.text;
                 });
               },
             ),
@@ -158,11 +187,14 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () {
-                  // Add forgot password functionality
+                  // TODO: Add forgot password functionality
                 },
-                child: Text('Forgot Password?',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary)),
+                child: Text(
+                  'Forgot Password?',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -171,10 +203,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   IconButton(
                     icon: Image.asset("assets/images/appAssets/biometrics.png"),
-                    onPressed: () async {
-                      // Trigger biometric authentication
-                      await _authenticateWithBiometrics();
-                    },
+                    onPressed: _authenticateWithBiometrics,
                   ),
                   const Text('Use Biometric Login'),
                 ],

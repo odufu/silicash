@@ -22,7 +22,7 @@ class Step3OtpScreen extends StatefulWidget {
 class _Step3OtpScreenState extends State<Step3OtpScreen> {
   final List<String> otpValues = List.filled(6, ""); // Stores OTP input.
   bool _isLoading = false;
-  int _secondsRemaining = 30; // Countdown timer duration.
+  int _secondsRemaining = 120; // Countdown timer duration.
   Timer? _timer;
 
   bool get isOtpComplete => otpValues.every((value) => value.isNotEmpty);
