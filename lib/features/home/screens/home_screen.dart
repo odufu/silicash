@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:silicash_mobile/features/home/pages/account_details_page.dart';
 import 'package:silicash_mobile/features/home/widgets/country_drop_down.dart';
 import 'package:silicash_mobile/features/home/widgets/other_services.dart';
@@ -14,6 +15,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool accounIsVisible = false;
+
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+  String firstName = "User"; // Default value
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    String? storedName = await secureStorage.read(key: "firstName");
+    if (storedName != null) {
+      setState(() {
+        firstName = storedName;
+      });
+    }
+  }
 
   void _showBottomModal() {
     showModalBottomSheet(
@@ -86,16 +105,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Row(
+                    Row(
                       children: [
                         CircleAvatar(
                           radius: 20,
                           backgroundImage: AssetImage(
-                              'assets/images/appAssets/profile.png'), // Replace with your image asset
+                              'assets/images/appAssets/dp.jpg'), // Replace with your image asset
                         ),
                         SizedBox(width: 10),
                         Text(
-                          'Hello Joel',
+                          'Hello $firstName',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,

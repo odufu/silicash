@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:silicash_mobile/features/login/services/login_service.dart';
 
 import '../provider/registration_provider.dart';
 
@@ -19,9 +20,10 @@ class EmailVerificationService {
 
   EmailVerificationService({required this.baseUrl});
 
-  Future<void> verifyEmail(
-      RegistrationProvider provider, String otpCode) async {
+  Future<void> verifyEmail(RegistrationProvider provider,
+      LoginService loginService, String otpCode) async {
     final email = provider.email;
+    final password = provider.password;
     if (email == null) {
       throw EmailVerificationException("Email not provided", 400);
     }
@@ -41,6 +43,14 @@ class EmailVerificationService {
         final data = json.decode(response.body);
         if (data['status'] == true) {
           print(data);
+
+          // login
+          final loginResult =
+              await loginService.login(email: email, password: password ?? "");
+          final token = loginResult["data"]["token"];
+          //save token to secured storage
+          print(token);
+
           return;
         } else {
           print(data["message"]);

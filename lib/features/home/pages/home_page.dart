@@ -15,8 +15,8 @@ class _HomePageState extends State<HomePage> {
   final PageController _pageController = PageController();
 
   final List<Widget> _screens = [
-    HomeScreen(),
     HomeScreen2(),
+    HomeScreen(),
     const Center(child: Text('Payments Screen')),
     const Center(child: Text('More Screen')),
   ];

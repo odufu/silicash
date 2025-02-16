@@ -1,8 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:silicash_mobile/core/widgets/costum_app_bar.dart';
 import 'package:silicash_mobile/features/home/widgets/country_drop_down.dart';
 
-class AccountDetailsPage extends StatelessWidget {
+class AccountDetailsPage extends StatefulWidget {
+  @override
+  State<AccountDetailsPage> createState() => _AccountDetailsPageState();
+}
+
+class _AccountDetailsPageState extends State<AccountDetailsPage> {
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+
+  String fullName = "User";
+  // Default value
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    String? storedName = await secureStorage.read(key: "fullName");
+    if (storedName != null) {
+      setState(() {
+        fullName = storedName;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -60,7 +85,7 @@ class AccountDetailsPage extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'John Kalu',
+                    fullName,
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,

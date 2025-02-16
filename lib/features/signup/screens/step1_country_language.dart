@@ -60,7 +60,7 @@ class _Step1CountryLanguageState extends State<Step1CountryLanguage> {
   List<MyCountry> _countries = [];
   bool _isLoading = true;
 
-  final List<String> supportedLanguageCodes = ["en", "fr", "es"];
+  final List<String> supportedLanguageCodes = ["English", "French", "Espaniol"];
 
   bool get isFormComplete =>
       _selectedCountry != null && _selectedLanguageCode != null;
@@ -208,7 +208,11 @@ class _Step1CountryLanguageState extends State<Step1CountryLanguage> {
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      HelperFunctions.routePushTo(LoginPage(loginService: LoginService(Constants.baseUrl),), context);
+                      HelperFunctions.routePushTo(
+                          LoginPage(
+                            loginService: LoginService(Constants.baseUrl),
+                          ),
+                          context);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -11,13 +11,24 @@ import '../widgets/annimated_circular_widget.dart';
 import '../screens/success.dart';
 
 class RegistrationFlow extends StatefulWidget {
+  final int initialPageIndex;
+
+  RegistrationFlow({this.initialPageIndex = 0});
+
   @override
   _RegistrationFlowState createState() => _RegistrationFlowState();
 }
 
 class _RegistrationFlowState extends State<RegistrationFlow> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
+  late final PageController _pageController;
+  late int _currentPage;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentPage = widget.initialPageIndex;
+    _pageController = PageController(initialPage: widget.initialPageIndex);
+  }
 
   void _nextPage() {
     if (_currentPage < 5) {
@@ -62,7 +73,6 @@ class _RegistrationFlowState extends State<RegistrationFlow> {
           controller: _pageController,
           physics: NeverScrollableScrollPhysics(),
           children: [
-            // Step1 already updates country and language in the provider
             Step1CountryLanguage(onNext: _nextPage),
             Step2PersonalInfo(onNext: _nextPage),
             Step5CreatePasswordScreen(onNext: _nextPage),

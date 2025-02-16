@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
 import 'package:silicash_mobile/core/widgets/costum_app_bar.dart';
 
@@ -13,6 +14,24 @@ class _StatementOfAccountPageState extends State<StatementOfAccountPage> {
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
   String? _selectedFileType;
+
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+  String email = "may email address"; // Default value
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    String? storedEmail = await secureStorage.read(key: "email");
+    if (storedEmail != null) {
+      setState(() {
+        email = storedEmail;
+      });
+    }
+  }
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
     final DateTime? picked = await showDatePicker(
@@ -45,7 +64,7 @@ class _StatementOfAccountPageState extends State<StatementOfAccountPage> {
           children: [
             Text(
               'Statement of account',
-              style:  TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
             SizedBox(height: 8),
             Text(
@@ -222,6 +241,7 @@ class _StatementOfAccountPageState extends State<StatementOfAccountPage> {
             ),
             SizedBox(height: 8),
             TextFormField(
+              initialValue: email,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 filled: true,

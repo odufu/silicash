@@ -75,8 +75,8 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
                   regProvider.setMiddleName, false),
               buildTextField("Last Name", _lastNameController,
                   regProvider.setLastName, true),
-              buildDropdownField("Gender", ["male", "female", "other"],
-                  _selectedGender, regProvider.setGender),
+              buildDropdownField("Gender", ["male", "female"], _selectedGender,
+                  regProvider.setGender),
               buildTextField(
                   "Email Address", _emailController, regProvider.setEmail, true,
                   emailValidation: true),
@@ -87,6 +87,33 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
               AppButton(
                   buttonLabel: "Continue",
                   onclick: isFormValid ? widget.onNext : null),
+              SizedBox(
+                height: 30,
+              ),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    HelperFunctions.routePushTo(
+                        LoginPage(
+                          loginService: LoginService(Constants.baseUrl),
+                        ),
+                        context);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Already have an account? ',
+                          style: TextStyle(color: Colors.black)),
+                      Text(
+                        'Login',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

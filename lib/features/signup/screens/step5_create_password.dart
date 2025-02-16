@@ -4,8 +4,11 @@ import 'package:silicash_mobile/core/utils/constants.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
 import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/core/widgets/costum_password_input.dart';
+import 'package:silicash_mobile/core/widgets/custom_checkbox.dart';
 import '../../login/pages/login_page.dart';
 import '../../login/services/login_service.dart';
+import '../pages/registration_flow.dart';
+import '../pages/signup_page.dart';
 import '../provider/registration_provider.dart';
 import '../services/registration_service.dart'; // Make sure to import your service
 
@@ -88,16 +91,34 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
 
       try {
         // Submit registration data as form data.
-        await registrationService.submitRegistration(registrationProvider);
-        // If successful, show a success message and move to OTP stage.
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Registration successful!')),
-        );
-        widget.onNext(); // Navigate to the OTP verification step.
+        final result =
+            await registrationService.submitRegistration(registrationProvider);
+
+        if (result["success"]) {
+          // If successful, show a success message and move to OTP stage.
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Registration successful!')),
+          );
+          widget.onNext();
+        } else {
+          if (result['message'] == "Email already registerd") {
+            HelperFunctions.routePushNormalTo(
+                LoginPage(loginService: LoginService(Constants.baseUrl)),
+                context);
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Email Already Exists Please Login")),
+            );
+          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(result['message'] ?? "Registration failed")),
+          );
+        }
+        // Navigate to the OTP verification step.
       } catch (error) {
         // On failure, display an error message.
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration failed: $error')),
+          SnackBar(content: Text(error.toString())),
         );
       }
     }
@@ -164,19 +185,16 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Checkbox(
+                  CustomCheckbox(
                     value: _agreeUpdates,
                     onChanged: (value) {
                       setState(() {
                         _agreeUpdates = value ?? false;
                       });
                     },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    side: const BorderSide(color: Colors.grey),
-                    checkColor: Colors.white,
-                    activeColor: Colors.green,
+                  ),
+                  SizedBox(
+                    width: 12,
                   ),
                   const Expanded(
                     child: Text(
@@ -189,19 +207,16 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Checkbox(
+                  CustomCheckbox(
                     value: _acceptTerms,
                     onChanged: (value) {
                       setState(() {
                         _acceptTerms = value ?? false;
                       });
                     },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    side: const BorderSide(color: Colors.grey),
-                    checkColor: Colors.white,
-                    activeColor: Colors.green,
+                  ),
+                  SizedBox(
+                    width: 12,
                   ),
                   Expanded(
                     child: RichText(
@@ -243,11 +258,7 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
               Center(
                 child: TextButton(
                   onPressed: () {
-                    HelperFunctions.routePushTo(
-                        LoginPage(
-                          loginService: LoginService(Constants.baseUrl),
-                        ),
-                        context);
+                    HelperFunctions.routePushTo(const SignupPage(), context);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

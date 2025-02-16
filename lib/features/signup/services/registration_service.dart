@@ -8,7 +8,8 @@ class RegistrationService {
   RegistrationService({required this.baseUrl});
 
   /// Submits all registration details as form data to the sign-up endpoint.
-  Future<void> submitRegistration(RegistrationProvider provider) async {
+  Future<Map<String, dynamic>> submitRegistration(
+      RegistrationProvider provider) async {
     final url = Uri.parse('$baseUrl/auth/sign-up');
 
     // Build the form-data payload from provider details.
@@ -33,17 +34,21 @@ class RegistrationService {
       final response = await http.post(url, body: formData);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // Success: You can decode response.body if needed.
-        print('Registration successful: ${response.body}');
+        final data = jsonDecode(response.body);
+        return {'success': true, 'data': data};
       } else {
         // Handle server errors.
         print('Registration failed: ${response.statusCode} - ${response.body}');
-        throw Exception('Registration failed with status: ${response.body}');
+        return {
+          'success': false,
+          'message':
+              jsonDecode(response.body)['message'] ?? 'Registration failed'
+        };
       }
     } catch (error) {
       // Catch and rethrow or handle the error appropriately.
       print('Error during registration: $error');
-      throw error;
+      return {'success': false, 'message': error.toString()};
     }
   }
 }

@@ -35,7 +35,7 @@ class _Step3OtpScreenState extends State<Step3OtpScreen> {
 
   void _startCountdown() {
     setState(() {
-      _secondsRemaining = 30;
+      _secondsRemaining = 120;
     });
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -81,7 +81,8 @@ class _Step3OtpScreenState extends State<Step3OtpScreen> {
         EmailVerificationService(baseUrl: Constants.baseUrl);
 
     try {
-      await emailVerificationService.verifyEmail(registrationProvider, otpCode);
+      await emailVerificationService.verifyEmail(
+          registrationProvider, LoginService(Constants.baseUrl), otpCode);
       widget.onNext();
     } on EmailVerificationException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -141,7 +142,10 @@ class _Step3OtpScreenState extends State<Step3OtpScreen> {
                 const SizedBox(height: 10),
                 Text(
                   "OTP expires in $_secondsRemaining seconds",
-                  style: const TextStyle(fontSize: 16, color: Colors.red),
+                  style: TextStyle(
+                      fontSize: 16,
+                      color:
+                          _secondsRemaining != 0 ? Colors.red : Colors.green),
                 ),
                 const SizedBox(height: 20),
                 Row(
