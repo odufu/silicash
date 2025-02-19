@@ -23,15 +23,34 @@ class Step5CreatePasswordScreen extends StatefulWidget {
       _Step5CreatePasswordScreenState();
 }
 
-class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
+class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen>
+    with SingleTickerProviderStateMixin {
   bool _isObscured = false;
   bool _agreeUpdates = false;
   bool _acceptTerms = false;
+  bool _isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
   String? password;
   String? confirmPassword;
   String? passwordError;
+
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   /// Validate the password meets:
   /// - Minimum 8 characters,
@@ -79,6 +98,8 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
   /// This function is called when the Continue button is pressed.
   /// It submits all registration details via the RegistrationService.
   Future<void> _onContinue() async {
+
+    
     if (isFormComplete) {
       // Retrieve your registration provider instance.
       final registrationProvider =
@@ -126,157 +147,174 @@ class _Step5CreatePasswordScreenState extends State<Step5CreatePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              const Text(
-                "Create Your Password",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                "Make sure your password is strong and memorable.",
-                style: TextStyle(color: Colors.grey),
-              ),
-              const SizedBox(height: 40),
-              // Password Input
-              CostumPasswordInput(
-                hint:
-                    "At least 8 characters, mixed case, one number, and one symbol",
-                onChanged: _onPasswordChanged,
-                label: "Enter a Password",
-                isObscured: _isObscured,
-                onPressed: () {
-                  setState(() {
-                    _isObscured = !_isObscured;
-                  });
-                },
-              ),
-              // Display password error if exists
-              if (passwordError != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    passwordError!,
-                    style: const TextStyle(color: Colors.red, fontSize: 12),
-                  ),
+    return Stack(children: [
+      SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 20),
+                const Text(
+                  "Create Your Password",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-              const SizedBox(height: 20),
-              // Confirm Password Input
-              CostumPasswordInput(
-                hint: "Enter the same password",
-                label: "Confirm Password",
-                onChanged: _onConfirmPasswordChanged,
-                isObscured: _isObscured,
-                onPressed: () {
-                  setState(() {
-                    _isObscured = !_isObscured;
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              // Checkboxes Section
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomCheckbox(
-                    value: _agreeUpdates,
-                    onChanged: (value) {
-                      setState(() {
-                        _agreeUpdates = value ?? false;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  const Expanded(
+                const SizedBox(height: 10),
+                const Text(
+                  "Make sure your password is strong and memorable.",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                const SizedBox(height: 40),
+                // Password Input
+                CostumPasswordInput(
+                  hint:
+                      "At least 8 characters, mixed case, one number, and one symbol",
+                  onChanged: _onPasswordChanged,
+                  label: "Enter a Password",
+                  isObscured: _isObscured,
+                  onPressed: () {
+                    setState(() {
+                      _isObscured = !_isObscured;
+                    });
+                  },
+                ),
+                // Display password error if exists
+                if (passwordError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
-                      "I agree to receive product updates, announcements, and exclusive offers via email.",
-                      style: TextStyle(fontSize: 14),
+                      passwordError!,
+                      style: const TextStyle(color: Colors.red, fontSize: 12),
                     ),
                   ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomCheckbox(
-                    value: _acceptTerms,
-                    onChanged: (value) {
-                      setState(() {
-                        _acceptTerms = value ?? false;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Expanded(
-                    child: RichText(
-                      text: const TextSpan(
-                        text: "I accept the ",
-                        style: TextStyle(fontSize: 14, color: Colors.black),
-                        children: [
-                          TextSpan(
-                            text: "Terms of Use",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.green,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                          TextSpan(
-                            text: " and ",
-                          ),
-                          TextSpan(
-                            text: "Privacy Policy.",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.green,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ],
+                const SizedBox(height: 20),
+                // Confirm Password Input
+                CostumPasswordInput(
+                  hint: "Enter the same password",
+                  label: "Confirm Password",
+                  onChanged: _onConfirmPasswordChanged,
+                  isObscured: _isObscured,
+                  onPressed: () {
+                    setState(() {
+                      _isObscured = !_isObscured;
+                    });
+                  },
+                ),
+                const SizedBox(height: 20),
+                // Checkboxes Section
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomCheckbox(
+                      value: _agreeUpdates,
+                      onChanged: (value) {
+                        setState(() {
+                          _agreeUpdates = value ?? false;
+                        });
+                      },
+                    ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    const Expanded(
+                      child: Text(
+                        "I agree to receive product updates, announcements, and exclusive offers via email.",
+                        style: TextStyle(fontSize: 14),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 40),
-              // Continue Button
-              AppButton(
-                buttonLabel: "Continue",
-                onclick: isFormComplete ? _onContinue : null,
-              ),
-              Center(
-                child: TextButton(
-                  onPressed: () {
-                    HelperFunctions.routePushTo(const SignupPage(), context);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Already have an account? ',
-                          style: TextStyle(color: Colors.black)),
-                      Text('Login',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary)),
-                    ],
+                  ],
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomCheckbox(
+                      value: _acceptTerms,
+                      onChanged: (value) {
+                        setState(() {
+                          _acceptTerms = value ?? false;
+                        });
+                      },
+                    ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Expanded(
+                      child: RichText(
+                        text: const TextSpan(
+                          text: "I accept the ",
+                          style: TextStyle(fontSize: 14, color: Colors.black),
+                          children: [
+                            TextSpan(
+                              text: "Terms of Use",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.green,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                            TextSpan(
+                              text: " and ",
+                            ),
+                            TextSpan(
+                              text: "Privacy Policy.",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.green,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 40),
+                // Continue Button
+                AppButton(
+                  buttonLabel: "Continue",
+                  onclick: isFormComplete ? _onContinue : null,
+                ),
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      HelperFunctions.routePushTo(const SignupPage(), context);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Already have an account? ',
+                            style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onSurface)),
+                        Text('Login',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary)),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
-    );
+      if (_isLoading)
+        Center(
+          child: Container(
+            color: Colors.black54,
+            child: Center(
+              child: RotationTransition(
+                turns: _controller,
+                child: Image.asset('assets/images/appAssets/Loader.png',
+                    width: 50, height: 50),
+              ),
+            ),
+          ),
+        ),
+    ]);
   }
 }

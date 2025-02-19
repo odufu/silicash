@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
 
+import '../../../core/widgets/custom_checkbox.dart';
 import '../pages/mobile_top_up.dart';
 import '../widgets/ammount_input.dart';
 import '../widgets/data_option.dart';
@@ -32,6 +33,7 @@ class DataPurchaseTab extends StatefulWidget {
 
 class _DataPurchaseTabState extends State<DataPurchaseTab> {
   int? selectedPrice; // Store the currently selected price
+  bool _autoSubscription = false;
 
   void handleTopUpSelection(int price) {
     setState(() {
@@ -156,12 +158,32 @@ class _DataPurchaseTabState extends State<DataPurchaseTab> {
           ),
 
           const SizedBox(height: 20),
-
-          // Amount and Phone Number Inputs
-          AmountInput(),
-          const SizedBox(height: 20),
+          Text("Phone Number"),
+          SizedBox(
+            height: 12,
+          ),
           PhoneNumberInput(),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              CustomCheckbox(
+                value: _autoSubscription,
+                onChanged: (value) {
+                  setState(() {
+                    _autoSubscription = value ?? false;
+                  });
+                },
+              ),
+              SizedBox(
+                width: 12,
+              ),
+              Text(
+                "Auto-Subscribe",
+                style: TextStyle(fontSize: 14),
+              )
+            ],
+          ),
+          const SizedBox(height: 79),
 
           // Continue Button
           SizedBox(

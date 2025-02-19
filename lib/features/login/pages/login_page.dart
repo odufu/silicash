@@ -10,9 +10,11 @@ import 'package:silicash_mobile/features/signup/screens/step3_otp_screen.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/utils/helper_functions.dart';
 import '../../../core/widgets/costum_app_bar.dart';
+import '../../../core/widgets/costum_loader.dart';
 import '../../home/pages/home_page.dart';
 import '../../signup/provider/registration_provider.dart';
 import '../services/login_service.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 
 class LoginPage extends StatefulWidget {
   final LoginService loginService;
@@ -108,10 +110,13 @@ class _LoginPageState extends State<LoginPage> {
 
   /// Handles login using email and password.
   /// On success, credentials are saved securely for future biometric login.
+
   Future<void> _handleLogin() async {
-    setState(() {
-      _isLoading = true;
-    });
+    Loader.show(context,
+        progressIndicator: LoadingOverlay(
+          isLoading: _isLoading,
+        ),
+        overlayColor: Colors.black.withOpacity(0.3));
 
     try {
       final result = await widget.loginService.login(
@@ -120,9 +125,7 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       if (result['success']) {
-        // Save the credentials in secure storage so that biometric login can use them later.
         await _storeCredentials();
-
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Login successful!")),
         );
@@ -145,9 +148,7 @@ class _LoginPageState extends State<LoginPage> {
         }
       }
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      Loader.hide();
     }
   }
 
@@ -244,8 +245,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Don’t have an account? ',
-                        style: TextStyle(color: Colors.black)),
+                    Text('Don’t have an account? ',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface)),
                     Text('Create Account',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,

@@ -64,7 +64,9 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildNavItem(
-                imagePath: 'assets/images/appAssets/home.png',
+                unselectedImagePath:
+                    'assets/images/appAssets/home_outlined.png',
+                selectedImagePath: 'assets/images/appAssets/home.png',
                 label: 'Home',
                 isSelected: _selectedIndex == 0,
                 onTap: () => _onItemTapped(0),
@@ -75,7 +77,9 @@ class _HomePageState extends State<HomePage> {
                 isCompact: screenWidth < 450,
               ),
               _buildNavItem(
-                imagePath: 'assets/images/appAssets/expense.png',
+                unselectedImagePath:
+                    'assets/images/appAssets/expense_outlined.png',
+                selectedImagePath: 'assets/images/appAssets/expense.png',
                 label: 'Expenses',
                 isSelected: _selectedIndex == 1,
                 onTap: () => _onItemTapped(1),
@@ -86,7 +90,9 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               _buildNavItem(
-                imagePath: 'assets/images/appAssets/card.png',
+                unselectedImagePath:
+                    'assets/images/appAssets/card_outlined.png',
+                selectedImagePath: 'assets/images/appAssets/card.png',
                 label: 'Cards',
                 isSelected: _selectedIndex == 2,
                 onTap: () => _onItemTapped(2),
@@ -97,7 +103,9 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               _buildNavItem(
-                imagePath: 'assets/images/appAssets/more-square.png',
+                unselectedImagePath:
+                    'assets/images/appAssets/more_menu_outlined.png',
+                selectedImagePath: 'assets/images/appAssets/more_menu.png',
                 label: 'More',
                 isSelected: _selectedIndex == 3,
                 onTap: () => _onItemTapped(3),
@@ -126,7 +134,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildNavItem({
-    required String imagePath,
+    required String unselectedImagePath,
+    required String selectedImagePath,
     required String label,
     required bool isSelected,
     required VoidCallback onTap,
@@ -168,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                         ).createShader(bounds);
                       },
                       child: Image.asset(
-                        imagePath,
+                        isSelected ? selectedImagePath : unselectedImagePath,
                         key: ValueKey(isSelected),
                         width: isSelected ? 32 : 28,
                         height: isSelected ? 32 : 28,
@@ -213,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                         ).createShader(bounds);
                       },
                       child: Image.asset(
-                        imagePath,
+                        isSelected ? selectedImagePath : unselectedImagePath,
                         key: ValueKey(isSelected),
                         width: isSelected ? 32 : 28,
                         height: isSelected ? 32 : 28,

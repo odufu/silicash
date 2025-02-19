@@ -43,7 +43,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: (onBackButtonPressed != null || canPop)
-                        ? Colors.grey[800]
+                        ? Theme.of(context).colorScheme.onSurface
                         : Colors.grey[400],
                   ),
                 ),
@@ -51,7 +51,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             if (action != null) action!,
           ],
-        ),  
+        ),
       ),
     );
   }

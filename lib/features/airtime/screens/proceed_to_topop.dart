@@ -95,9 +95,17 @@ class _BuyAirtimePageState extends State<BuyAirtimePage> {
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(.3),
+                        blurRadius: 5,
+                      )
+                    ]),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -124,7 +132,8 @@ class _BuyAirtimePageState extends State<BuyAirtimePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: List.generate(4, (index) {
                   return SizedBox(
-                    width: 40,
+                    width: 56,
+                    height: 56,
                     child: TextFormField(
                       onChanged: (value) {
                         if (value.isNotEmpty) {
@@ -136,6 +145,10 @@ class _BuyAirtimePageState extends State<BuyAirtimePage> {
                       textAlign: TextAlign.center,
                       maxLength: 1,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ), // Set text size and weight
                       decoration: InputDecoration(
                         counterText: "",
                         border: OutlineInputBorder(
@@ -173,19 +186,32 @@ class _BuyAirtimePageState extends State<BuyAirtimePage> {
           Text(
             label,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 12,
               fontWeight: FontWeight.w500,
               color: Colors.black.withOpacity(0.7),
             ),
           ),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
+          ShaderMask(
+            shaderCallback: (bounds) {
+              return LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.secondary
+                ], // Replace with your gradient colors
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ).createShader(bounds);
+            },
+            child: Text(
+              value,
+              style: const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                color: Colors
+                    .white, // This must be white to allow the gradient to show
+              ),
             ),
-          ),
+          )
         ],
       ),
     );

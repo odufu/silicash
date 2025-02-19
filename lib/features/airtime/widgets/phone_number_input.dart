@@ -12,9 +12,17 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
 
   // Function to request contact permissions and fetch contacts
   Future<void> _selectContact() async {
-    if (await FlutterContacts.requestPermission()) {
+    // Check if the permission is granted
+    var status = await Permission.contacts.status;
+    if (!status.isGranted) {
+      // Request the permission
+      status = await Permission.contacts.request();
+    }
+
+    if (status.isGranted) {
       // Fetch contacts
-      List<Contact> contacts = await FlutterContacts.getContacts(withProperties: true);
+      List<Contact> contacts =
+          await FlutterContacts.getContacts(withProperties: true);
 
       // Show contact selection dialog
       if (contacts.isNotEmpty) {
@@ -50,11 +58,12 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
     } else {
       // Handle denied permission
       _showAlert("Permission Required",
-          "Please grant contacts access to select a contact.");
+          "Please grant contacts access to select a contact. You can enable it in the app settings.",
+          isSettings: true);
     }
   }
 
-  void _showAlert(String title, String message) {
+  void _showAlert(String title, String message, {bool isSettings = false}) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -65,6 +74,14 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
             onPressed: () => Navigator.pop(context),
             child: const Text("OK"),
           ),
+          if (isSettings)
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                await openAppSettings(); // Open app settings
+              },
+              child: const Text("Settings"),
+            ),
         ],
       ),
     );
@@ -74,6 +91,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
   Widget build(BuildContext context) {
     return TextField(
       controller: _phoneNumberController,
+      maxLength: 11,
       decoration: InputDecoration(
         labelText: "Phone Number",
         border: OutlineInputBorder(

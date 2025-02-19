@@ -108,7 +108,11 @@ class _Step4CreatePinScreenState extends State<Step4CreatePinScreen> {
               Center(
                 child: TextButton(
                   onPressed: () {
-                    HelperFunctions.routePushTo(LoginPage(loginService: LoginService(Constants.baseUrl),), context);
+                    HelperFunctions.routePushTo(
+                        LoginPage(
+                          loginService: LoginService(Constants.baseUrl),
+                        ),
+                        context);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

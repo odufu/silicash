@@ -103,7 +103,8 @@ class _Step2PersonalInfoState extends State<Step2PersonalInfo> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text('Already have an account? ',
-                          style: TextStyle(color: Colors.black)),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface)),
                       Text(
                         'Login',
                         style: TextStyle(

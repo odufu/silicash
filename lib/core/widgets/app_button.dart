@@ -27,10 +27,10 @@ class AppButton extends StatelessWidget {
             gradient: LinearGradient(
               colors: [
                 onclick == null
-                    ? Colors.grey.shade300
+                    ? Theme.of(context).colorScheme.surface
                     : Theme.of(context).colorScheme.primary,
                 onclick == null
-                    ? Colors.grey.shade300
+                    ? Theme.of(context).colorScheme.surface
                     : Theme.of(context).colorScheme.secondary,
               ],
               begin: Alignment.centerLeft,

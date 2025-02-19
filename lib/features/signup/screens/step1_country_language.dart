@@ -218,7 +218,8 @@ class _Step1CountryLanguageState extends State<Step1CountryLanguage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Already have an account? ',
-                            style: TextStyle(color: Colors.black)),
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface)),
                         Text(
                           'Login',
                           style: TextStyle(

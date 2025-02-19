@@ -95,7 +95,7 @@ class _AirtimeTabState extends State<AirtimeTab> {
           const SizedBox(height: 20),
 
           // Amount and Phone Number Inputs
-          AmountInput(),
+          selectedPrice == null ? AmountInput() : SizedBox.shrink(),
           const SizedBox(height: 20),
           PhoneNumberInput(),
           const SizedBox(height: 20),
