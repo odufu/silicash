@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
+import 'package:silicash_mobile/features/airtime/widgets/reciept_card.dart';
+import 'package:silicash_mobile/features/home/pages/home_page.dart';
 import 'package:silicash_mobile/features/signup/screens/success.dart';
 import '../../../core/widgets/costum_app_bar.dart';
 
@@ -64,8 +66,10 @@ class _BuyAirtimePageState extends State<BuyAirtimePage> {
 
     HelperFunctions.routePushNormalTo(
       Succee(
-        title: "Airtime Purchase Success",
-        message: "You have successfully purchased a credit of 100000 Naira",
+        title: "Successfully",
+        child: ReceiptCard(),
+        message: "Your MTN recharge of ₦1000 was successful. ",
+        nextPage: HomePage(),
       ),
       context,
     );

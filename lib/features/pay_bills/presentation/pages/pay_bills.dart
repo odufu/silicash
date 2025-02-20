@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:silicash_mobile/core/widgets/costum_app_bar.dart';
+import 'package:silicash_mobile/features/pay_bills/presentation/screens/electricity_tab.dart';
 
 import '../../../airtime/screens/airtime_tab.dart';
 import '../../../airtime/screens/data_purchase_tab.dart';
@@ -15,12 +16,12 @@ class _PayBillsState extends State<PayBills>
   int selectedNetwork = 0;
 
   // Constants
-  final List<String> networks = ['MTN', 'AIRTEL', 'GLO', 'ETISALAT'];
+  final List<String> providers = ['EEDC', 'EKEDC', 'AEDC', 'IBEDC'];
   final List<String> networkImages = [
-    'assets/images/appAssets/mtn.png',
-    'assets/images/appAssets/airtel.png',
-    'assets/images/appAssets/glo.png',
-    'assets/images/appAssets/etisalat.png'
+    'assets/images/appAssets/eedc.png',
+    'assets/images/appAssets/EKEDC.png',
+    'assets/images/appAssets/AEDC.png',
+    'assets/images/appAssets/IBEDC.png'
   ];
   final List<Color> networkColors = [
     Colors.yellow,
@@ -102,38 +103,38 @@ class _PayBillsState extends State<PayBills>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  AirtimeTab(
-                    networks: networks,
-                    networkColors: networkColors,
-                    networkImages: networkImages,
-                    onNetworkSelected: (index) {
+                  ElectricityTab(
+                    providers: providers,
+                    providerColors: networkColors,
+                    providerImages: networkImages,
+                    onProviderSelected: (index) {
                       setState(() {
                         selectedNetwork = index;
                       });
                     },
-                    selectedNetwork: selectedNetwork,
+                    selectedProvider: selectedNetwork,
                   ),
-                  DataPurchaseTab(
-                    networks: networks,
-                    networkColors: networkColors,
-                    networkImages: networkImages,
-                    onNetworkSelected: (index) {
+                  ElectricityTab(
+                    providers: providers,
+                    providerColors: networkColors,
+                    providerImages: networkImages,
+                    onProviderSelected: (index) {
                       setState(() {
                         selectedNetwork = index;
                       });
                     },
-                    selectedNetwork: selectedNetwork,
+                    selectedProvider: selectedNetwork,
                   ),
-                  DataPurchaseTab(
-                    networks: networks,
-                    networkColors: networkColors,
-                    networkImages: networkImages,
-                    onNetworkSelected: (index) {
+                  ElectricityTab(
+                    providers: providers,
+                    providerColors: networkColors,
+                    providerImages: networkImages,
+                    onProviderSelected: (index) {
                       setState(() {
                         selectedNetwork = index;
                       });
                     },
-                    selectedNetwork: selectedNetwork,
+                    selectedProvider: selectedNetwork,
                   ),
                 ],
               ),

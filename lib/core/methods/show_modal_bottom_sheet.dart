@@ -44,9 +44,9 @@ class _StatementOfAccountPageState extends State<StatementOfAccountPage> {
         ),
         title: Text(
           'Statement of Account',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,
       ),
       body: SingleChildScrollView(

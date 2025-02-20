@@ -33,8 +33,8 @@ class _PhoneTopUpPageState extends State<PhoneTopUpPage>
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
         elevation: 0,
       ),
       body: Column(
@@ -101,7 +101,10 @@ class AirtimeTab extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          const Text("Top Up", style: TextStyle(fontWeight: FontWeight.bold)),
+          Text("Top Up",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.bold)),
           const Wrap(
             spacing: 8,
             children: [
@@ -226,8 +229,8 @@ class NetworkButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {},
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.grey.shade200,
+        foregroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).colorScheme.onSurface,
       ),
       child: Text(label),
     );
@@ -244,8 +247,8 @@ class AmountButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {},
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.grey.shade200,
+        foregroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).colorScheme.onSurface,
       ),
       child: Text(amount),
     );
@@ -262,8 +265,8 @@ class DataPlanButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {},
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.grey.shade200,
+        foregroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).colorScheme.onSurface,
       ),
       child: Text(label, textAlign: TextAlign.center),
     );

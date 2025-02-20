@@ -36,7 +36,9 @@ class _TopUpOptionsState extends State<TopUpOptions> {
                 decoration: BoxDecoration(
                   color: selectedPrice == price
                       ? Theme.of(context).colorScheme.secondary
-                      : Colors.white, // Highlight if selected
+                      : Theme.of(context)
+                          .colorScheme
+                          .surface, // Highlight if selected
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: const [
                     BoxShadow(
@@ -52,7 +54,7 @@ class _TopUpOptionsState extends State<TopUpOptions> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ),

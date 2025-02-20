@@ -10,10 +10,14 @@ import '../../login/services/login_service.dart';
 class Succee extends StatelessWidget {
   final String title;
   final String message;
+  final Widget child;
+  final Widget nextPage;
 
   const Succee({
     super.key,
     required this.title,
+    required this.nextPage,
+    required this.child,
     required this.message,
   });
   @override
@@ -24,14 +28,13 @@ class Succee extends StatelessWidget {
       child: SuccessScreen(
         title: title,
         message: message,
+        child: Center(
+          child: child,
+        ),
         gifPath: "assets/images/appAssets/success2.gif",
         onButtonPressed: () {
           // Navigate to another screen
-          HelperFunctions.routeReplacdTo(
-              LoginPage(
-                loginService: LoginService(Constants.baseUrl),
-              ),
-              context);
+          HelperFunctions.routeReplacdTo(nextPage, context);
         },
       ),
     ));

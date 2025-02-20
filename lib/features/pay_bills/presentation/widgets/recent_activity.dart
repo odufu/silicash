@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class RecentActivityCard extends StatelessWidget {
+class RecentActivity extends StatelessWidget {
   final String title;
 
-  const RecentActivityCard({super.key, required this.title});
+  const RecentActivity({super.key, required this.title});
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -17,7 +17,7 @@ class RecentActivityCard extends StatelessWidget {
         child: Image.asset("assets/images/appAssets/data.png"),
       ),
       title: Text(title),
-      subtitle: const Text("(080123456789)"),
+      subtitle: const Text("(EKEDC Prepaid (1234567890))"),
       trailing: const Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,

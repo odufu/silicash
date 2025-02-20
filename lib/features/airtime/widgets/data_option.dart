@@ -50,7 +50,9 @@ class _DataOptionState extends State<DataOption> {
                 decoration: BoxDecoration(
                   color: selectedPrice == option["price"]
                       ? Theme.of(context).colorScheme.secondary
-                      : Colors.white, // Highlight if selected
+                      : Theme.of(context)
+                          .colorScheme
+                          .surface, // Highlight if selected
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: const [
                     BoxShadow(
@@ -65,10 +67,10 @@ class _DataOptionState extends State<DataOption> {
                   children: [
                     Text(
                       "${option["qty"]}GB", // Display data quantity
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -82,10 +84,10 @@ class _DataOptionState extends State<DataOption> {
                     const SizedBox(height: 8),
                     Text(
                       "\u20a6${option["price"]}", // Display price
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ],

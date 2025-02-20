@@ -100,8 +100,14 @@ class _Step4CreatePinScreenState extends State<Step4CreatePinScreen> {
                       ? () => HelperFunctions.routeReplacdTo(
                           Succee(
                             title: "Account Successfully Created",
+                            nextPage: LoginPage(
+                              loginService: LoginService(Constants.baseUrl),
+                            ),
                             message:
                                 "Your account has been successfully created.",
+                            child: Column(
+                              children: [Text("Account Details...")],
+                            ),
                           ),
                           context)
                       : null),

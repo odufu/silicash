@@ -38,7 +38,7 @@ class _MobileTopUpState extends State<MobileTopUp>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFDEB),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -83,7 +83,7 @@ class _MobileTopUpState extends State<MobileTopUp>
                     ]),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  labelColor: Colors.white,
+                  labelColor: Theme.of(context).colorScheme.surface,
                   unselectedLabelColor: Colors.green,
                   indicatorSize: TabBarIndicatorSize.tab,
                   tabs: const [
