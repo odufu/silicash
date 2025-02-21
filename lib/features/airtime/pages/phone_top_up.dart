@@ -24,50 +24,52 @@ class _PhoneTopUpPageState extends State<PhoneTopUpPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Buy Airtime & Data"),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Buy Airtime & Data"),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          foregroundColor: Theme.of(context).colorScheme.onSurface,
+          elevation: 0,
         ),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        foregroundColor: Theme.of(context).colorScheme.onSurface,
-        elevation: 0,
-      ),
-      body: Column(
-        children: [
-          // Tabs for Airtime and Data
-          Container(
-            color: Colors.grey.shade200,
-            child: TabBar(
-              controller: _tabController,
-              indicator: BoxDecoration(
-                color: Colors.green.shade100,
-                borderRadius: BorderRadius.circular(10),
+        body: Column(
+          children: [
+            // Tabs for Airtime and Data
+            Container(
+              color: Colors.grey.shade200,
+              child: TabBar(
+                controller: _tabController,
+                indicator: BoxDecoration(
+                  color: Colors.green.shade100,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                labelColor: Colors.green,
+                unselectedLabelColor: Colors.black54,
+                tabs: const [
+                  Tab(text: "Airtime"),
+                  Tab(text: "Data"),
+                ],
               ),
-              labelColor: Colors.green,
-              unselectedLabelColor: Colors.black54,
-              tabs: const [
-                Tab(text: "Airtime"),
-                Tab(text: "Data"),
-              ],
             ),
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                // Airtime Tab
-                AirtimeTab(),
-                // Data Tab
-                DataTab(),
-              ],
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  // Airtime Tab
+                  AirtimeTab(),
+                  // Data Tab
+                  DataTab(),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

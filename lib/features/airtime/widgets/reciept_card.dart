@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:silicash_mobile/core/theme/app_theme_extension.dart';
 
 class ReceiptCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final cardColor =
+        Theme.of(context).extension<AppThemeExtension>()?.cardColor(context);
     return Card(
       color: Theme.of(context).colorScheme.surface,
       shape: RoundedRectangleBorder(
@@ -23,7 +26,7 @@ class ReceiptCard extends StatelessWidget {
           ),
           SizedBox(height: 16),
           Container(
-            color: Colors.white,
+            color: cardColor,
             padding: EdgeInsets.all(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -37,7 +40,7 @@ class ReceiptCard extends StatelessWidget {
             height: 5,
           ),
           Container(
-            color: Colors.white,
+            color: cardColor,
             padding: EdgeInsets.all(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,7 +54,7 @@ class ReceiptCard extends StatelessWidget {
             height: 5,
           ),
           Container(
-            color: Colors.white,
+            color: cardColor,
             padding: EdgeInsets.all(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,7 +68,7 @@ class ReceiptCard extends StatelessWidget {
             height: 5,
           ),
           Container(
-            color: Colors.white,
+            color: cardColor,
             padding: EdgeInsets.all(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,7 +103,7 @@ class ReceiptCard extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(color: Colors.grey[700]),
+            style: TextStyle(),
           ),
           Text(
             value,

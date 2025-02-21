@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final screenWidth = MediaQuery.of(context).size.width;
-
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return SafeArea(
       child: Scaffold(
         body: PageView(
@@ -49,16 +49,8 @@ class _HomePageState extends State<HomePage> {
           children: _screens,
         ),
         bottomNavigationBar: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
             color: isDarkMode ? Colors.black : Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 10,
-                offset: const Offset(0, -2),
-              ),
-            ],
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -142,110 +134,107 @@ class _HomePageState extends State<HomePage> {
     List<Color>? gradientColors,
     required bool isCompact,
   }) {
-    return GestureDetector(
-      onTap: () {
-        _playClickSound(); // Play the sound when the item is tapped
-        onTap(); // Execute the provided callback
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-        decoration: BoxDecoration(
-          color:
-              isSelected ? Colors.green.withOpacity(0.1) : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+    return Flexible(
+      child: GestureDetector(
+        onTap: () {
+          _playClickSound(); // Play the sound when the item is tapped
+          onTap(); // Execute the provided callback
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+          child: isCompact
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      transitionBuilder: (child, animation) {
+                        return ScaleTransition(scale: animation, child: child);
+                      },
+                      child: ShaderMask(
+                        key: ValueKey(isSelected),
+                        shaderCallback: (bounds) {
+                          return LinearGradient(
+                            colors: isSelected
+                                ? (gradientColors ??
+                                    [Colors.green, Colors.lightGreen])
+                                : [Colors.grey, Colors.grey],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ).createShader(bounds);
+                        },
+                        child: Image.asset(
+                          isSelected ? selectedImagePath : unselectedImagePath,
+                          key: ValueKey(isSelected),
+                          width: isSelected ? 32 : 28,
+                          height: isSelected ? 32 : 28,
+                          color: Colors.white, // Masked with gradient
+                        ),
+                      ),
+                    ),
+                    AnimatedOpacity(
+                      opacity: isSelected ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 300),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Text(
+                          label,
+                          style: const TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Row(
+                  children: [
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      transitionBuilder: (child, animation) {
+                        return ScaleTransition(scale: animation, child: child);
+                      },
+                      child: ShaderMask(
+                        key: ValueKey(isSelected),
+                        shaderCallback: (bounds) {
+                          return LinearGradient(
+                            colors: isSelected
+                                ? (gradientColors ??
+                                    [Colors.green, Colors.lightGreen])
+                                : [Colors.grey, Colors.grey],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ).createShader(bounds);
+                        },
+                        child: Image.asset(
+                          isSelected ? selectedImagePath : unselectedImagePath,
+                          key: ValueKey(isSelected),
+                          width: isSelected ? 32 : 28,
+                          height: isSelected ? 32 : 28,
+                          color: Colors.white, // Masked with gradient
+                        ),
+                      ),
+                    ),
+                    AnimatedOpacity(
+                      opacity: isSelected ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 300),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(
+                          label,
+                          style: const TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
         ),
-        child: isCompact
-            ? Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    transitionBuilder: (child, animation) {
-                      return ScaleTransition(scale: animation, child: child);
-                    },
-                    child: ShaderMask(
-                      key: ValueKey(isSelected),
-                      shaderCallback: (bounds) {
-                        return LinearGradient(
-                          colors: isSelected
-                              ? (gradientColors ??
-                                  [Colors.green, Colors.lightGreen])
-                              : [Colors.grey, Colors.grey],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ).createShader(bounds);
-                      },
-                      child: Image.asset(
-                        isSelected ? selectedImagePath : unselectedImagePath,
-                        key: ValueKey(isSelected),
-                        width: isSelected ? 32 : 28,
-                        height: isSelected ? 32 : 28,
-                        color: Colors.white, // Masked with gradient
-                      ),
-                    ),
-                  ),
-                  AnimatedOpacity(
-                    opacity: isSelected ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 300),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(
-                        label,
-                        style: const TextStyle(
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            : Row(
-                children: [
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    transitionBuilder: (child, animation) {
-                      return ScaleTransition(scale: animation, child: child);
-                    },
-                    child: ShaderMask(
-                      key: ValueKey(isSelected),
-                      shaderCallback: (bounds) {
-                        return LinearGradient(
-                          colors: isSelected
-                              ? (gradientColors ??
-                                  [Colors.green, Colors.lightGreen])
-                              : [Colors.grey, Colors.grey],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ).createShader(bounds);
-                      },
-                      child: Image.asset(
-                        isSelected ? selectedImagePath : unselectedImagePath,
-                        key: ValueKey(isSelected),
-                        width: isSelected ? 32 : 28,
-                        height: isSelected ? 32 : 28,
-                        color: Colors.white, // Masked with gradient
-                      ),
-                    ),
-                  ),
-                  AnimatedOpacity(
-                    opacity: isSelected ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 300),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Text(
-                        label,
-                        style: const TextStyle(
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
       ),
     );
   }

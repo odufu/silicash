@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:silicash_mobile/core/utils/constants.dart';
 import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/features/home/pages/statement_page.dart';
 import 'package:silicash_mobile/features/home/widgets/country_drop_down.dart';
 import 'package:silicash_mobile/features/home/widgets/dark_country_drop_down.dart';
 import 'package:silicash_mobile/features/home/widgets/other_services.dart';
 import 'package:silicash_mobile/features/home/widgets/transaction_card.dart';
+import 'package:silicash_mobile/features/login/services/login_service.dart';
+import 'package:silicash_mobile/features/profile/presentation/pages/profile_page.dart';
 
 import '../pages/account_details_page.dart';
 
@@ -94,294 +97,312 @@ class _HomeScreen2State extends State<HomeScreen2> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      floatingActionButton: IconButton(
-          onPressed: () {},
-          icon: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(50),
-                boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(.4), blurRadius: 10)
-                ]),
-            child: Image.asset("assets/images/appAssets/message.png"),
-          )),
-      body: SafeArea(
-        child: Scaffold(
-          backgroundColor: const Color(0xFFFAFDEB),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Top Bar
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundImage: AssetImage(
-                                'assets/images/appAssets/dp.jpg'), // Replace with your image asset
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            'Hello $firstName',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                              onPressed: () {},
-                              icon: Image.asset(
-                                  "assets/images/appAssets/notification.png")),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Balance Card
-                  Container(
-                    width: size.width,
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        Theme.of(context).colorScheme.primary,
-                        Theme.of(context).colorScheme.secondary
-                      ]),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12.withOpacity(.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+    return SafeArea(
+      child: Scaffold(
+        floatingActionButton: IconButton(
+            onPressed: () {},
+            icon: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(50),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(.4), blurRadius: 10)
+                  ]),
+              child: Image.asset("assets/images/appAssets/message.png"),
+            )),
+        body: SafeArea(
+          child: Scaffold(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Top Bar
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            DarkCountryDropDown(),
-                            IconButton(
-                              onPressed: _showBottomModal,
-                              icon: Image.asset(
-                                  "assets/images/appAssets/moreRounded.png"),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            AnimatedCrossFade(
-                              duration: const Duration(milliseconds: 300),
-                              firstChild: const Text(
-                                '₦42,453.00',
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              secondChild: const Text(
-                                '***************',
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              crossFadeState: accounIsVisible
-                                  ? CrossFadeState.showFirst
-                                  : CrossFadeState.showSecond,
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  accounIsVisible = !accounIsVisible;
-                                });
-                              },
-                              icon: accounIsVisible
-                                  ? Image.asset(
-                                      "assets/images/appAssets/visibility.png",
-                                      color: Colors.white,
-                                    )
-                                  : Image.asset(
-                                      "assets/images/appAssets/visibility-off.png",
-                                      color: Colors.white,
+                            GestureDetector(
+                              onTap: () {
+                                HelperFunctions.routePushTo(
+                                    ProfilePage(
+                                      loginService:
+                                          LoginService(Constants.baseUrl),
                                     ),
+                                    context);
+                              },
+                              child: CircleAvatar(
+                                radius: 20,
+                                backgroundImage: AssetImage(
+                                    'assets/images/appAssets/dp.jpg'), // Replace with your image asset
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              'Hello $firstName',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
                         Row(
                           children: [
-                            Text(
-                              '6*** 43459',
-                              style:
-                                  TextStyle(fontSize: 14, color: Colors.white),
-                            ),
                             IconButton(
                                 onPressed: () {},
                                 icon: Image.asset(
-                                  "assets/images/appAssets/copy.png",
-                                  color: Colors.white,
-                                ))
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: IconButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
-                                ),
-                                icon: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      child: Image.asset(
-                                        "assets/images/appAssets/send.png",
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                      ),
-                                    ),
-                                    const Text(
-                                      'Send',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: IconButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
-                                ),
-                                icon: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      child: Image.asset(
-                                          "assets/images/appAssets/fund.png"),
-                                    ),
-                                    const Text(
-                                      'Fund Card',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: IconButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
-                                ),
-                                icon: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      child: Image.asset(
-                                          "assets/images/appAssets/convert2.png"),
-                                    ),
-                                    const Text(
-                                      'Convert',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                    "assets/images/appAssets/notification.png")),
                           ],
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 21),
+                    const SizedBox(height: 20),
 
-                  // Other Services
-                  const Text(
-                    'Other Services',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                    // Balance Card
+                    Container(
+                      width: size.width,
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                          Theme.of(context).colorScheme.primary,
+                          Theme.of(context).colorScheme.secondary
+                        ]),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.2),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              DarkCountryDropDown(),
+                              IconButton(
+                                onPressed: _showBottomModal,
+                                icon: Image.asset(
+                                    "assets/images/appAssets/moreRounded.png"),
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              AnimatedCrossFade(
+                                duration: const Duration(milliseconds: 300),
+                                firstChild: const Text(
+                                  '₦42,453.00',
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                secondChild: const Text(
+                                  '***************',
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                crossFadeState: accounIsVisible
+                                    ? CrossFadeState.showFirst
+                                    : CrossFadeState.showSecond,
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    accounIsVisible = !accounIsVisible;
+                                  });
+                                },
+                                icon: accounIsVisible
+                                    ? Image.asset(
+                                        "assets/images/appAssets/visibility.png",
+                                        color: Colors.white,
+                                      )
+                                    : Image.asset(
+                                        "assets/images/appAssets/visibility-off.png",
+                                        color: Colors.white,
+                                      ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Text(
+                                '6*** 43459',
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.white),
+                              ),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Image.asset(
+                                    "assets/images/appAssets/copy.png",
+                                    color: Colors.white,
+                                  ))
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: IconButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12),
+                                  ),
+                                  icon: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4),
+                                        child: Image.asset(
+                                          "assets/images/appAssets/send.png",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Send',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: IconButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12),
+                                  ),
+                                  icon: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4),
+                                        child: Image.asset(
+                                            "assets/images/appAssets/fund.png"),
+                                      ),
+                                      Text(
+                                        'Fund Card',
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: IconButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12),
+                                  ),
+                                  icon: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4),
+                                        child: Image.asset(
+                                            "assets/images/appAssets/convert2.png"),
+                                      ),
+                                      Text(
+                                        'Convert',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
+                    const SizedBox(height: 21),
 
-                  OtherServices(),
-
-                  const SizedBox(height: 21),
-
-                  // Recent Activity
-                  const Text(
-                    'Recent Activity',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                    // Other Services
+                    const Text(
+                      'Other Services',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Today',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
+                    const SizedBox(height: 16),
 
-                  TransactionList()
-                ],
+                    OtherServices(),
+
+                    const SizedBox(height: 21),
+
+                    // Recent Activity
+                    const Text(
+                      'Recent Activity',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Today',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+
+                    TransactionList()
+                  ],
+                ),
               ),
             ),
           ),

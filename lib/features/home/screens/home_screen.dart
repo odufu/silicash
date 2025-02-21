@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:silicash_mobile/core/utils/constants.dart';
 import 'package:silicash_mobile/features/home/pages/account_details_page.dart';
 import 'package:silicash_mobile/features/home/widgets/country_drop_down.dart';
 import 'package:silicash_mobile/features/home/widgets/other_services.dart';
 import 'package:silicash_mobile/features/home/widgets/transaction_card.dart';
+import 'package:silicash_mobile/features/login/services/login_service.dart';
+import 'package:silicash_mobile/features/profile/presentation/pages/profile_page.dart';
 
 import '../../../core/methods/show_modal_bottom_sheet.dart';
 import '../../../core/utils/helper_functions.dart';
@@ -107,10 +110,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Row(
                       children: [
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundImage: AssetImage(
-                              'assets/images/appAssets/dp.jpg'), // Replace with your image asset
+                        GestureDetector(
+                          onTap: () {
+                            HelperFunctions.routePushTo(
+                                ProfilePage(
+                                  loginService: LoginService(Constants.baseUrl),
+                                ),
+                                context);
+                          },
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundImage: AssetImage(
+                                'assets/images/appAssets/dp.jpg'), // Replace with your image asset
+                          ),
                         ),
                         SizedBox(width: 10),
                         Text(

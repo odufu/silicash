@@ -6,20 +6,15 @@ import 'package:silicash_mobile/features/pay_bills/presentation/widgets/recent_a
 
 import '../../../../core/utils/helper_functions.dart';
 import '../../../airtime/screens/proceed_to_topop.dart';
-import '../../../airtime/widgets/ammount_input.dart';
-import '../../../airtime/widgets/network_selection.dart';
-import '../../../airtime/widgets/phone_number_input.dart';
-import '../../../airtime/widgets/recent_activity_card.dart';
-import '../../../airtime/widgets/top_up_option.dart';
 
-class ElectricityTab extends StatefulWidget {
+class SubscriptionTab extends StatefulWidget {
   final List<String> providers;
   final List<String> providerImages;
   final List<Color> providerColors;
   final int selectedProvider;
   final Function(int) onProviderSelected;
 
-  const ElectricityTab({
+  const SubscriptionTab({
     required this.providers,
     required this.providerColors,
     required this.selectedProvider,
@@ -28,18 +23,16 @@ class ElectricityTab extends StatefulWidget {
   });
 
   @override
-  State<ElectricityTab> createState() => _ElectricityTabState();
+  State<SubscriptionTab> createState() => _SubscriptionTabState();
 }
 
-class _ElectricityTabState extends State<ElectricityTab> {
-  String selectedPlan = "Pre-Paid"; // Store the currently selected plan
-  String? meterNumber; // Store the currently selected plan
-  String? ammount; // Store the currently selected plan
+class _SubscriptionTabState extends State<SubscriptionTab> {
+  String selectedPlan = "Premeium"; // Store the currently selected plan
+  String? autoSubscriptionPlan = "Monthly"; // Store the currently selected plan
+  String? smartCardNumber; // Store the currently selected plan
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,8 +44,8 @@ class _ElectricityTabState extends State<ElectricityTab> {
           ),
           const SizedBox(height: 10),
           RecentActivity(
-            title: "Electricity",
-            provider: "AEDC",
+            title: "Tv subscription",
+            provider: "DSTV",
             date: "Jul 27, 2022 6:15PM",
             userId: "585468856665",
           ),
@@ -94,7 +87,7 @@ class _ElectricityTabState extends State<ElectricityTab> {
 
           CustomDropdownField(
               label: "Select Payment Type",
-              options: ["Pre-Paid", "Post-Paid"],
+              options: ["Premeium", "Premium-plus"],
               selectedValue: selectedPlan,
               onChanged: (value) {
                 setState(() {
@@ -102,27 +95,36 @@ class _ElectricityTabState extends State<ElectricityTab> {
                 });
               }),
           Text(
-            "Enter Account/Meter Number",
+            "Smart Card Number",
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           TextField(
             decoration: InputDecoration(
-              hintText: "Enter account/meter",
+              hintText: "Enter smart card number",
             ),
+            onChanged: (value) {
+              setState(() {
+                smartCardNumber = value;
+              });
+            },
           ),
           const SizedBox(height: 10),
           Text(
-            "Ammount",
+            "Auto-Subscribe",
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          TextField(
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              hintText: "Enter amount",
-            ),
-          ),
+
+          CustomDropdownField(
+              label: "Select auto-subscription plan",
+              options: ["Monthly", "Yearly"],
+              selectedValue: autoSubscriptionPlan,
+              onChanged: (value) {
+                setState(() {
+                  autoSubscriptionPlan = value;
+                });
+              }),
           const SizedBox(height: 20),
           const SizedBox(height: 20),
 

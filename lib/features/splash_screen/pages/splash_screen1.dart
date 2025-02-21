@@ -52,45 +52,47 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.secondary
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Theme.of(context).colorScheme.primary,
+                Theme.of(context).colorScheme.secondary
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
           ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedBuilder(
-                animation: _scaleAnimation,
-                builder: (context, child) {
-                  return Transform.scale(
-                    scale: _scaleAnimation.value,
-                    child: child,
-                  );
-                },
-                child: Image.asset(
-                  "assets/images/brand/logoWhite.png",
-                  width: 139,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedBuilder(
+                  animation: _scaleAnimation,
+                  builder: (context, child) {
+                    return Transform.scale(
+                      scale: _scaleAnimation.value,
+                      child: child,
+                    );
+                  },
+                  child: Image.asset(
+                    "assets/images/brand/logoWhite.png",
+                    width: 139,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                '', // Optional: Add app name or slogan
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                const SizedBox(height: 20),
+                const Text(
+                  '', // Optional: Add app name or slogan
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

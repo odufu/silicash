@@ -69,98 +69,100 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: _welcomeContent.length,
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentPage = index;
-                  });
-                },
-                itemBuilder: (context, index) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        _welcomeContent[index]["image"]!,
-                        height: 250,
-                        fit: BoxFit.contain,
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        _welcomeContent[index]["title"]!,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: _welcomeContent.length,
+                  onPageChanged: (index) {
+                    setState(() {
+                      _currentPage = index;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          _welcomeContent[index]["image"]!,
+                          height: 250,
+                          fit: BoxFit.contain,
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        _welcomeContent[index]["subtitle"]!,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
+                        const SizedBox(height: 20),
+                        Text(
+                          _welcomeContent[index]["title"]!,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              _welcomeContent.length,
-              (index) => AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                margin: EdgeInsets.symmetric(horizontal: 5),
-                height: 8,
-                width: _currentPage == index ? 16 : 8,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    gradient: LinearGradient(colors: [
-                      _currentPage == index
-                          ? Theme.of(context).colorScheme.primary
-                          : Colors.grey,
-                      _currentPage == index
-                          ? Theme.of(context).colorScheme.secondary
-                          : Colors.grey,
-                    ])),
-              ),
-            ),
-          ),
-          const SizedBox(height: 80),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              children: [
-                AppButton(
-                  buttonLabel: "Create Account",
-                  onclick: () =>
-                      HelperFunctions.routeReplacdTo(SignupPage(), context),
+                        const SizedBox(height: 10),
+                        Text(
+                          _welcomeContent[index]["subtitle"]!,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
-                const SizedBox(height: 16),
-                CostumTextButton(
-                  buttonLabel: "Login your account",
-                  onclick: () => HelperFunctions.routeReplacdTo(
-                      LoginPage(
-                        loginService: LoginService(Constants.baseUrl),
-                      ),
-                      context),
-                )
-              ],
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-        ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                _welcomeContent.length,
+                (index) => AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  height: 8,
+                  width: _currentPage == index ? 16 : 8,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      gradient: LinearGradient(colors: [
+                        _currentPage == index
+                            ? Theme.of(context).colorScheme.primary
+                            : Colors.grey,
+                        _currentPage == index
+                            ? Theme.of(context).colorScheme.secondary
+                            : Colors.grey,
+                      ])),
+                ),
+              ),
+            ),
+            const SizedBox(height: 80),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                children: [
+                  AppButton(
+                    buttonLabel: "Create Account",
+                    onclick: () =>
+                        HelperFunctions.routeReplacdTo(SignupPage(), context),
+                  ),
+                  const SizedBox(height: 16),
+                  CostumTextButton(
+                    buttonLabel: "Login your account",
+                    onclick: () => HelperFunctions.routeReplacdTo(
+                        LoginPage(
+                          loginService: LoginService(Constants.baseUrl),
+                        ),
+                        context),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

@@ -37,96 +37,98 @@ class _MobileTopUpState extends State<MobileTopUp>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: CustomAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Buy Airtime & Data",
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
-                TextButton(
-                  onPressed: () {},
-                  child: Text("History",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.primary)),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            // Tab Bar
-            Theme(
-              data: Theme.of(context).copyWith(
-                dividerColor:
-                    Colors.transparent, // Removes the black bottom border
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: CustomAppBar(),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Buy Airtime & Data",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text("History",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                            color: Theme.of(context).colorScheme.primary)),
+                  )
+                ],
               ),
-              child: SizedBox(
-                height: 30,
-                child: TabBar(
-                  indicatorWeight: 1,
-                  dividerColor: Colors.transparent,
-                  controller: _tabController,
-                  indicator: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      Theme.of(context).colorScheme.primary,
-                      Theme.of(context).colorScheme.secondary
-                    ]),
-                    borderRadius: BorderRadius.circular(8),
+              SizedBox(
+                height: 24,
+              ),
+              // Tab Bar
+              Theme(
+                data: Theme.of(context).copyWith(
+                  dividerColor:
+                      Colors.transparent, // Removes the black bottom border
+                ),
+                child: SizedBox(
+                  height: 30,
+                  child: TabBar(
+                    indicatorWeight: 1,
+                    dividerColor: Colors.transparent,
+                    controller: _tabController,
+                    indicator: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Theme.of(context).colorScheme.primary,
+                        Theme.of(context).colorScheme.secondary
+                      ]),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    labelColor: Theme.of(context).colorScheme.surface,
+                    unselectedLabelColor: Colors.green,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    tabs: const [
+                      Tab(text: 'Airtime'),
+                      Tab(text: 'Data'),
+                    ],
                   ),
-                  labelColor: Theme.of(context).colorScheme.surface,
-                  unselectedLabelColor: Colors.green,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  tabs: const [
-                    Tab(text: 'Airtime'),
-                    Tab(text: 'Data'),
+                ),
+              ),
+      
+              SizedBox(height: 20),
+      
+              // Tab Views
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    AirtimeTab(
+                      networks: networks,
+                      networkColors: networkColors,
+                      networkImages: networkImages,
+                      onNetworkSelected: (index) {
+                        setState(() {
+                          selectedNetwork = index;
+                        });
+                      },
+                      selectedNetwork: selectedNetwork,
+                    ),
+                    DataPurchaseTab(
+                      networks: networks,
+                      networkColors: networkColors,
+                      networkImages: networkImages,
+                      onNetworkSelected: (index) {
+                        setState(() {
+                          selectedNetwork = index;
+                        });
+                      },
+                      selectedNetwork: selectedNetwork,
+                    ),
                   ],
                 ),
               ),
-            ),
-
-            SizedBox(height: 20),
-
-            // Tab Views
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  AirtimeTab(
-                    networks: networks,
-                    networkColors: networkColors,
-                    networkImages: networkImages,
-                    onNetworkSelected: (index) {
-                      setState(() {
-                        selectedNetwork = index;
-                      });
-                    },
-                    selectedNetwork: selectedNetwork,
-                  ),
-                  DataPurchaseTab(
-                    networks: networks,
-                    networkColors: networkColors,
-                    networkImages: networkImages,
-                    onNetworkSelected: (index) {
-                      setState(() {
-                        selectedNetwork = index;
-                      });
-                    },
-                    selectedNetwork: selectedNetwork,
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

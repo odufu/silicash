@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:silicash_mobile/core/theme/app_theme_extension.dart';
 
 class RecentActivityCard extends StatelessWidget {
   final String title;
@@ -7,7 +8,8 @@ class RecentActivityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      tileColor: Colors.white,
+      tileColor:
+          Theme.of(context).extension<AppThemeExtension>()?.cardColor(context),
       contentPadding: EdgeInsets.all(8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),

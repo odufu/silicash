@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_theme_extension.dart';
+
 class TransactionCard extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -24,7 +26,9 @@ class TransactionCard extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         child: Container(
-          color: Colors.white, // Set the background color to white
+          color: Theme.of(context)
+              .extension<AppThemeExtension>()
+              ?.cardColor(context), // Set the background color to white
           margin: EdgeInsets.all(0), // No margin
           padding: EdgeInsets.symmetric(
               vertical: 4.0), // Optional: Add vertical padding for spacing

@@ -1,40 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
-import 'package:silicash_mobile/core/widgets/custom_dropdown_field.dart';
-import 'package:silicash_mobile/features/pay_bills/presentation/widgets/electric_provider_selection.dart';
-import 'package:silicash_mobile/features/pay_bills/presentation/widgets/recent_activity.dart';
-
+import 'package:silicash_mobile/features/pay_bills/presentation/widgets/betting_provider_selection.dart';
 import '../../../../core/utils/helper_functions.dart';
 import '../../../airtime/screens/proceed_to_topop.dart';
 import '../../../airtime/widgets/ammount_input.dart';
-import '../../../airtime/widgets/network_selection.dart';
-import '../../../airtime/widgets/phone_number_input.dart';
 import '../../../airtime/widgets/recent_activity_card.dart';
 import '../../../airtime/widgets/top_up_option.dart';
 
-class ElectricityTab extends StatefulWidget {
-  final List<String> providers;
-  final List<String> providerImages;
-  final List<Color> providerColors;
+class BettingTab extends StatefulWidget {
+  final List<String> provider;
+  final List<String> providerImage;
+  final List<Color> providerColor;
   final int selectedProvider;
   final Function(int) onProviderSelected;
 
-  const ElectricityTab({
-    required this.providers,
-    required this.providerColors,
+  const BettingTab({
+    required this.provider,
+    required this.providerColor,
     required this.selectedProvider,
     required this.onProviderSelected,
-    required this.providerImages,
+    required this.providerImage,
   });
 
   @override
-  State<ElectricityTab> createState() => _ElectricityTabState();
+  State<BettingTab> createState() => _BettingTabState();
 }
 
-class _ElectricityTabState extends State<ElectricityTab> {
-  String selectedPlan = "Pre-Paid"; // Store the currently selected plan
-  String? meterNumber; // Store the currently selected plan
-  String? ammount; // Store the currently selected plan
+class _BettingTabState extends State<BettingTab> {
+  int? selectedPrice; // Store the currently selected price
+
+  void handleTopUpSelection(int price) {
+    setState(() {
+      selectedPrice = price; // Update the selected price
+    });
+    print("Selected Price: $selectedPrice");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +50,10 @@ class _ElectricityTabState extends State<ElectricityTab> {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
           const SizedBox(height: 10),
-          RecentActivity(
-            title: "Electricity",
-            provider: "AEDC",
-            date: "Jul 27, 2022 6:15PM",
-            userId: "585468856665",
-          ),
+          RecentActivityCard(title: "Bet9ja"),
           const SizedBox(height: 20),
 
+          // Choose Network
           // Choose Network
           Row(
             children: [
@@ -83,47 +79,41 @@ class _ElectricityTabState extends State<ElectricityTab> {
             ],
           ),
           const SizedBox(height: 10),
-          ProviderSelection(
-            providers: widget.providers,
-            providerColors: widget.providerColors,
-            providerImages: widget.providerImages,
+          BettingProviderSelection(
+            providers: widget.provider,
+            providerColors: widget.providerColor,
+            providerImages: widget.providerImage,
             selectedProvider: widget.selectedProvider,
             onProviderSelected: widget.onProviderSelected,
           ),
           const SizedBox(height: 20),
-
-          CustomDropdownField(
-              label: "Select Payment Type",
-              options: ["Pre-Paid", "Post-Paid"],
-              selectedValue: selectedPlan,
-              onChanged: (value) {
-                setState(() {
-                  selectedPlan = value;
-                });
-              }),
-          Text(
-            "Enter Account/Meter Number",
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            decoration: InputDecoration(
-              hintText: "Enter account/meter",
-            ),
-          ),
           const SizedBox(height: 10),
           Text(
-            "Ammount",
+            "User ID",
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           TextField(
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              hintText: "Enter amount",
-            ),
+            decoration: InputDecoration(hintText: "enter id number"),
           ),
           const SizedBox(height: 20),
+          // Top Up Options
+          Text(
+            "Select Ammount",
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Colors.black87,
+                ),
+          ),
+          const SizedBox(height: 10),
+          TopUpOptions(
+            size: size,
+            onSelectionChanged: handleTopUpSelection, // Pass the callback
+          ),
+          const SizedBox(height: 20),
+
+          // Amount and Phone Number Inputs
+          selectedPrice == null ? AmountInput() : SizedBox.shrink(),
           const SizedBox(height: 20),
 
           // Continue Button

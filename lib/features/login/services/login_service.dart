@@ -79,4 +79,8 @@ class LoginService {
       'fullName': fullName,
     };
   }
+
+  Future<void> logout() async {
+    await secureStorage.deleteAll();
+  }
 }

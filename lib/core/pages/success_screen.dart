@@ -21,42 +21,45 @@ class SuccessScreen extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  gifPath,
-                  width: 200,
-                  height: 200,
-                ),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 100,
+                    backgroundImage: AssetImage(
+                      gifPath,
+                    ),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  message,
-                  style: const TextStyle(color: Colors.grey),
-                  textAlign: TextAlign.center,
-                ),
-                child,
-                const SizedBox(height: 40),
-                AppButton(
-                  buttonLabel: "Proceed",
-                  onclick: onButtonPressed ??
-                      () {
-                        Navigator.pop(context);
-                      },
-                ),
-              ],
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    message,
+                    style: const TextStyle(color: Colors.grey),
+                    textAlign: TextAlign.center,
+                  ),
+                  child,
+                  const SizedBox(height: 40),
+                  AppButton(
+                    buttonLabel: "Proceed",
+                    onclick: onButtonPressed ??
+                        () {
+                          Navigator.pop(context);
+                        },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

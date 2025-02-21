@@ -113,144 +113,146 @@ class _Step3OtpScreenState extends State<Step3OtpScreen> {
 
     return WillPopScope(
       onWillPop: () async => false, // Disable back navigation.
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Verify Email"),
-          automaticallyImplyLeading: false,
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20),
-                Text(
-                  "Please provide the OTP sent to this email:",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.grey),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  emailDisplay,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Verify Email"),
+            automaticallyImplyLeading: false,
+          ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 20),
+                  Text(
+                    "Please provide the OTP sent to this email:",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.grey),
                   ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  "OTP expires in $_secondsRemaining seconds",
-                  style: TextStyle(
+                  const SizedBox(height: 8),
+                  Text(
+                    emailDisplay,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
                       fontSize: 16,
-                      color:
-                          _secondsRemaining != 0 ? Colors.red : Colors.green),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(6, (index) {
-                    return SizedBox(
-                      width: 40,
-                      child: TextFormField(
-                        onChanged: (value) {
-                          if (value.isNotEmpty) {
-                            FocusScope.of(context).nextFocus();
-                          }
-                          _onOtpChanged(value, index);
-                        },
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        maxLength: 1,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        decoration: InputDecoration(
-                          counterText: "",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: _secondsRemaining == 0
-                          ? () async {
-                              try {
-                                final resendOtpService = ResendOtpService(
-                                    baseUrl: Constants.baseUrl);
-                                await resendOtpService.resendOtp(
-                                    registrationProvider); // Pass the email
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          "OTP has been resent successfully!")),
-                                );
-                                _clearOtpFields();
-                                _startCountdown(); // Restart the countdown after resending OTP
-                              } catch (error) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text("Error resending OTP: $error")),
-                                );
-                              }
-                            }
-                          : null,
-                      child: Text(
-                        "Resend OTP",
-                        style: TextStyle(
-                          color: _secondsRemaining == 0
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                AppButton(
-                  buttonLabel: _isLoading ? "Verifying..." : "Continue",
-                  onclick: isOtpComplete && !_isLoading ? _verifyOtp : null,
-                ),
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => LoginPage(
-                            loginService: LoginService(Constants.baseUrl),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "OTP expires in $_secondsRemaining seconds",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color:
+                            _secondsRemaining != 0 ? Colors.red : Colors.green),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(6, (index) {
+                      return SizedBox(
+                        width: 40,
+                        child: TextFormField(
+                          onChanged: (value) {
+                            if (value.isNotEmpty) {
+                              FocusScope.of(context).nextFocus();
+                            }
+                            _onOtpChanged(value, index);
+                          },
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          maxLength: 1,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: InputDecoration(
+                            counterText: "",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
                           ),
                         ),
                       );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Already have an account? ',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        Text(
-                          'Login',
+                    }),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: _secondsRemaining == 0
+                            ? () async {
+                                try {
+                                  final resendOtpService = ResendOtpService(
+                                      baseUrl: Constants.baseUrl);
+                                  await resendOtpService.resendOtp(
+                                      registrationProvider); // Pass the email
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            "OTP has been resent successfully!")),
+                                  );
+                                  _clearOtpFields();
+                                  _startCountdown(); // Restart the countdown after resending OTP
+                                } catch (error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text("Error resending OTP: $error")),
+                                  );
+                                }
+                              }
+                            : null,
+                        child: Text(
+                          "Resend OTP",
                           style: TextStyle(
+                            color: _secondsRemaining == 0
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.grey,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  AppButton(
+                    buttonLabel: _isLoading ? "Verifying..." : "Continue",
+                    onclick: isOtpComplete && !_isLoading ? _verifyOtp : null,
+                  ),
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(
+                              loginService: LoginService(Constants.baseUrl),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Already have an account? ',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          Text(
+                            'Login',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

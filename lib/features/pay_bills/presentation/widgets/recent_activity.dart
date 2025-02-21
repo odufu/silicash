@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:silicash_mobile/core/theme/app_theme_extension.dart';
 
 class RecentActivity extends StatelessWidget {
   final String title;
+  final String provider;
+  final String userId;
+  final String date;
 
-  const RecentActivity({super.key, required this.title});
+  const RecentActivity({
+    super.key,
+    required this.title,
+    required this.provider,
+    required this.date,
+    required this.userId,
+  });
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      tileColor: Colors.white,
+      tileColor:
+          Theme.of(context).extension<AppThemeExtension>()?.cardColor(context),
       contentPadding: EdgeInsets.all(8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
@@ -17,8 +28,8 @@ class RecentActivity extends StatelessWidget {
         child: Image.asset("assets/images/appAssets/data.png"),
       ),
       title: Text(title),
-      subtitle: const Text("(EKEDC Prepaid (1234567890))"),
-      trailing: const Column(
+      subtitle: Text("($provider Prepaid ($userId))"),
+      trailing: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -29,8 +40,7 @@ class RecentActivity extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          Text("Jul 27, 2022 6:15PM",
-              style: TextStyle(color: Colors.grey, fontSize: 12)),
+          Text(date, style: TextStyle(color: Colors.grey, fontSize: 12)),
         ],
       ),
     );

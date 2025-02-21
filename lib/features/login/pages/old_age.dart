@@ -48,109 +48,111 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              const Text(
-                'Login',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 40),
-              const Row(
-                children: [
-                  Text(
-                    "Email Address",
-                    style: TextStyle(),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              const TextField(
-                autofillHints: [AutofillHints.email],
-                decoration: InputDecoration(
-                  labelText: 'Email Address',
-                  border: OutlineInputBorder(),
+    return SafeArea(
+      child: Scaffold(
+        appBar: CustomAppBar(),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                const Text(
+                  'Login',
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 20),
-              const Row(
-                children: [
-                  Text(
-                    "Password",
-                    style: TextStyle(),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              CostumPasswordInput(
-                  isObscured: _isObscured,
-                  onPressed: () {
-                    setState(() {
-                      _isObscured = !_isObscured;
-                    });
-                  },
-                  label: "Password",
-                  hint: "Enter your Password"),
-              const SizedBox(height: 10),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    // Add forgot password functionality
-                  },
-                  child: Text('Forgot Password?',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary)),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: Column(
+                const SizedBox(height: 40),
+                const Row(
                   children: [
-                    IconButton(
-                      icon:
-                          Image.asset("assets/images/appAssets/biometrics.png"),
-                      onPressed: () async {
-                        // Trigger biometric authentication
-                        await _authenticateWithBiometrics();
-                      },
+                    Text(
+                      "Email Address",
+                      style: TextStyle(),
                     ),
-                    const Text('Use Biometric Login'),
                   ],
                 ),
-              ),
-              const SizedBox(height: 30),
-              AppButton(
-                buttonLabel: "Login",
-                onclick: () {
-                  HelperFunctions.routeReplacdTo(HomePage(), context);
-                },
-              ),
-              Center(
-                child: TextButton(
-                  onPressed: () {
-                    HelperFunctions.routePushTo(SignupPage(), context);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                const SizedBox(height: 10),
+                const TextField(
+                  autofillHints: [AutofillHints.email],
+                  decoration: InputDecoration(
+                    labelText: 'Email Address',
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 20),
+                const Row(
+                  children: [
+                    Text(
+                      "Password",
+                      style: TextStyle(),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                CostumPasswordInput(
+                    isObscured: _isObscured,
+                    onPressed: () {
+                      setState(() {
+                        _isObscured = !_isObscured;
+                      });
+                    },
+                    label: "Password",
+                    hint: "Enter your Password"),
+                const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      // Add forgot password functionality
+                    },
+                    child: Text('Forgot Password?',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary)),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: Column(
                     children: [
-                      const Text('Don’t have an account? ',
-                          style: TextStyle(color: Colors.black)),
-                      Text('Create Account',
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary)),
+                      IconButton(
+                        icon:
+                            Image.asset("assets/images/appAssets/biometrics.png"),
+                        onPressed: () async {
+                          // Trigger biometric authentication
+                          await _authenticateWithBiometrics();
+                        },
+                      ),
+                      const Text('Use Biometric Login'),
                     ],
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 30),
+                AppButton(
+                  buttonLabel: "Login",
+                  onclick: () {
+                    HelperFunctions.routeReplacdTo(HomePage(), context);
+                  },
+                ),
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      HelperFunctions.routePushTo(SignupPage(), context);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Don’t have an account? ',
+                            style: TextStyle(color: Colors.black)),
+                        Text('Create Account',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary)),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -22,21 +22,23 @@ class Succee extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: SuccessScreen(
-        title: title,
-        message: message,
-        child: Center(
-          child: child,
+    return SafeArea(
+      child: Scaffold(
+          body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: SuccessScreen(
+          title: title,
+          message: message,
+          child: Center(
+            child: child,
+          ),
+          gifPath: "assets/images/appAssets/success2.gif",
+          onButtonPressed: () {
+            // Navigate to another screen
+            HelperFunctions.routeReplacdTo(nextPage, context);
+          },
         ),
-        gifPath: "assets/images/appAssets/success2.gif",
-        onButtonPressed: () {
-          // Navigate to another screen
-          HelperFunctions.routeReplacdTo(nextPage, context);
-        },
-      ),
-    ));
+      )),
+    );
   }
 }
