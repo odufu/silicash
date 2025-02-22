@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/features/airtime/pages/mobile_top_up.dart';
+import 'package:silicash_mobile/features/book_flight/presentation/pages/book_flight_page.dart';
 import 'package:silicash_mobile/features/pay_bills/presentation/pages/pay_bills.dart';
 
 import '../../../core/theme/app_theme_extension.dart';
@@ -49,7 +50,7 @@ class OtherServices extends StatelessWidget {
                 imagePath: 'assets/images/appAssets/bookFlight.png',
                 backgroundColor: Colors.orange[100],
                 onTap: () {
-                  print('Book Flight tapped');
+                  HelperFunctions.routePushTo(BookFlightPage(), context);
                 },
               ),
               _buildCardWithTap(

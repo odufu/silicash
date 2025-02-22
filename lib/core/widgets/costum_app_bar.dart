@@ -17,6 +17,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     // Show back button if a callback is provided or if the navigator can pop.
     final bool showBackButton = onBackButtonPressed != null || canPop;
 
+    // Determine the correct image path based on the theme
+    final String arrowIconPath = Theme.of(context).brightness == Brightness.dark
+        ? "assets/images/appAssets/arrowLeftDark.png"
+        : "assets/images/brand/arrowLeft.png";
+
     return PreferredSize(
       preferredSize: const Size.fromHeight(56), // Height of the custom AppBar
       child: SafeArea(
@@ -31,7 +36,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   if (showBackButton)
                     IconButton(
-                      icon: Image.asset("assets/images/brand/arrowLeft.png"),
+                      icon: Image.asset(
+                        arrowIconPath,
+                        errorBuilder: (context, error, stackTrace) {
+                          // Fallback if the image fails to load
+                          return Icon(
+                            Icons.arrow_back_ios,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          );
+                        },
+                      ),
                       tooltip:
                           MaterialLocalizations.of(context).backButtonTooltip,
                       onPressed: () {

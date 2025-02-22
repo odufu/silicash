@@ -16,6 +16,11 @@ class CustomDropdownField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determine the correct image path based on the theme
+    final String arrowIconPath = Theme.of(context).brightness == Brightness.dark
+        ? "assets/images/appAssets/arrowDowndark.png"
+        : "assets/images/appAssets/arrowDown.png";
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -36,9 +41,13 @@ class CustomDropdownField extends StatelessWidget {
             ),
           ),
           icon: Image.asset(
-            "assets/images/appAssets/arrowDown.png",
+            arrowIconPath,
             width: 20, // Adjust size as needed
             height: 20,
+            errorBuilder: (context, error, stackTrace) {
+              // Fallback if the image fails to load
+              return const Icon(Icons.arrow_drop_down, color: Colors.black);
+            },
           ),
           validator: (value) => value == null ? '$label is required' : null,
           onChanged: (value) {
