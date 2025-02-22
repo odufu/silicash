@@ -6,6 +6,7 @@ import 'package:silicash_mobile/features/home/widgets/country_drop_down.dart';
 import 'package:silicash_mobile/features/home/widgets/other_services.dart';
 import 'package:silicash_mobile/features/home/widgets/transaction_card.dart';
 import 'package:silicash_mobile/features/login/services/login_service.dart';
+import 'package:silicash_mobile/features/notification/presentation/pages/notification_page.dart';
 import 'package:silicash_mobile/features/profile/presentation/pages/profile_page.dart';
 
 import '../../../core/methods/show_modal_bottom_sheet.dart';
@@ -138,7 +139,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       children: [
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              HelperFunctions.routePushTo(
+                                  NotificationPage(), context);
+                            },
                             icon: Image.asset(
                                 "assets/images/appAssets/notification.png")),
                       ],
