@@ -78,7 +78,6 @@ class _StatementOfAccountPageState extends State<StatementOfAccountPage> {
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   filled: true,
-                  fillColor: Colors.grey[200],
                 ),
                 items: <String>['USD', 'EUR', 'GBP', 'NGN'].map((String value) {
                   return DropdownMenuItem<String>(
@@ -110,7 +109,6 @@ class _StatementOfAccountPageState extends State<StatementOfAccountPage> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             filled: true,
-                            fillColor: Colors.grey[200],
                             hintText: 'Pick a date',
                             prefixIcon:
                                 Image.asset("assets/images/appAssets/date.png"),
@@ -142,7 +140,6 @@ class _StatementOfAccountPageState extends State<StatementOfAccountPage> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             filled: true,
-                            fillColor: Colors.grey[200],
                             hintText: 'Pick a date',
                             prefixIcon:
                                 Image.asset("assets/images/appAssets/date.png"),
@@ -169,8 +166,8 @@ class _StatementOfAccountPageState extends State<StatementOfAccountPage> {
                         padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: _selectedFileType == 'PDF'
-                              ? Colors.lightGreen[100]
-                              : Colors.grey[200],
+                              ? Theme.of(context).colorScheme.surface
+                              : Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
                             color: _selectedFileType == 'PDF'
@@ -207,8 +204,8 @@ class _StatementOfAccountPageState extends State<StatementOfAccountPage> {
                         padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: _selectedFileType == 'CSV'
-                              ? Colors.lightGreen[100]
-                              : Colors.grey[200],
+                              ? Theme.of(context).colorScheme.surface
+                              : Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
                             color: _selectedFileType == 'CSV'
@@ -246,7 +243,6 @@ class _StatementOfAccountPageState extends State<StatementOfAccountPage> {
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   filled: true,
-                  fillColor: Colors.grey[200],
                   hintText: 'Enter email address',
                 ),
               ),

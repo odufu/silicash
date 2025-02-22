@@ -107,102 +107,104 @@ class _NotificationPageState extends State<NotificationPage> {
       groupedNotifications.putIfAbsent(dateLabel, () => []).add(notification);
     }
 
-    return Scaffold(
-      appBar: const CustomAppBar(),
-      backgroundColor:
-          Theme.of(context).colorScheme.surface, // Use theme-aware background
-      body: groupedNotifications.isEmpty
-          ? const Center(child: Text('No notifications'))
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Notifications',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: _clearAllNotifications,
-                        child: Text(
-                          'Clear',
+    return SafeArea(
+      child: Scaffold(
+        appBar: const CustomAppBar(),
+        backgroundColor:
+            Theme.of(context).colorScheme.surface, // Use theme-aware background
+        body: groupedNotifications.isEmpty
+            ? const Center(child: Text('No notifications'))
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Notifications',
                           style: TextStyle(
-                            fontSize: 16,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .error, // Use error color for contrast
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    itemCount: groupedNotifications.length,
-                    itemBuilder: (context, index) {
-                      final dateLabel =
-                          groupedNotifications.keys.toList()[index];
-                      final dateNotifications =
-                          groupedNotifications[dateLabel]!;
-
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              dateLabel,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey[600],
-                              ),
+                        TextButton(
+                          onPressed: _clearAllNotifications,
+                          child: Text(
+                            'Clear',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .error, // Use error color for contrast
                             ),
                           ),
-                          ...dateNotifications.map((notification) {
-                            final notificationIndex =
-                                sortedNotifications.indexOf(notification);
-                            return Dismissible(
-                              key: Key(
-                                  notification.id), // Use unique ID as the key
-                              direction: DismissDirection
-                                  .endToStart, // Allow swipe from right to left
-                              background: Container(
-                                color: Colors.red,
-                                alignment: Alignment.centerRight,
-                                padding: const EdgeInsets.only(right: 16.0),
-                                child: const Icon(Icons.delete,
-                                    color: Colors.white),
-                              ),
-                              onDismissed: (direction) {
-                                _deleteNotification(notificationIndex);
-                              },
-                              child: NotificationCard(
-                                notification: notification,
-                                onTap: () {
-                                  setState(() {
-                                    notification.isRead = true;
-                                  });
-                                },
-                              ),
-                            );
-                          }),
-                        ],
-                      );
-                    },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      itemCount: groupedNotifications.length,
+                      itemBuilder: (context, index) {
+                        final dateLabel =
+                            groupedNotifications.keys.toList()[index];
+                        final dateNotifications =
+                            groupedNotifications[dateLabel]!;
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                dateLabel,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ),
+                            ...dateNotifications.map((notification) {
+                              final notificationIndex =
+                                  sortedNotifications.indexOf(notification);
+                              return Dismissible(
+                                key: Key(notification
+                                    .id), // Use unique ID as the key
+                                direction: DismissDirection
+                                    .endToStart, // Allow swipe from right to left
+                                background: Container(
+                                  color: Colors.red,
+                                  alignment: Alignment.centerRight,
+                                  padding: const EdgeInsets.only(right: 16.0),
+                                  child: const Icon(Icons.delete,
+                                      color: Colors.white),
+                                ),
+                                onDismissed: (direction) {
+                                  _deleteNotification(notificationIndex);
+                                },
+                                child: NotificationCard(
+                                  notification: notification,
+                                  onTap: () {
+                                    setState(() {
+                                      notification.isRead = true;
+                                    });
+                                  },
+                                ),
+                              );
+                            }),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }
@@ -261,7 +263,9 @@ class NotificationCard extends StatelessWidget {
             // Restored GoogleFonts for consistency
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: notification.isRead ? Colors.grey : Colors.black,
+            color: notification.isRead
+                ? Theme.of(context).colorScheme.onSurface.withOpacity(.5)
+                : Theme.of(context).colorScheme.onSurface,
           ),
         ),
         subtitle: Column(
@@ -271,7 +275,9 @@ class NotificationCard extends StatelessWidget {
               notification.subtitle,
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.grey[600],
+                color: notification.isRead
+                    ? Theme.of(context).colorScheme.onSurface.withOpacity(.5)
+                    : Theme.of(context).colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 4),
