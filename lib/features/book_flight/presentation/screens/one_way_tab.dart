@@ -4,30 +4,28 @@ import 'package:silicash_mobile/core/widgets/app_button.dart';
 import 'package:silicash_mobile/core/widgets/custom_dropdown_field.dart';
 import 'package:silicash_mobile/features/book_flight/presentation/pages/flight_search_result_page.dart';
 import 'package:silicash_mobile/features/book_flight/presentation/widgets/class_carbin_selector.dart';
-import '../widgets/date_selector.dart';
-import '../widgets/passenger_selector.dart';
+import '../widgets/departure_date_selector.dart'; // New widget
+import '../widgets/passenger_selector.dart'; // Adjust the import path as needed
 
-class RoundTripTab extends StatefulWidget {
-  const RoundTripTab({super.key});
+class OneWayTab extends StatefulWidget {
+  const OneWayTab({super.key});
 
   @override
-  State<RoundTripTab> createState() => _RoundTripTabState();
+  State<OneWayTab> createState() => _OneWayTabState();
 }
 
-class _RoundTripTabState extends State<RoundTripTab> {
+class _OneWayTabState extends State<OneWayTab> {
   String? leavingFrom;
   String? goingTo;
-  int _adultCount = 1; // Default values managed by parent
-  int _childCount = 0;
-  DateTime? departureDate;
-  DateTime? returnDate;
+  int _adultCount = 1; // Default to 1 adult
+  int _childCount = 0; // Default to 0 children
+  DateTime? departureDate; // Only need departure date for one-way
 
-  void _handleDatesSelected(DateTime? departure, DateTime? returnDate) {
+  void _handleDateSelected(DateTime? departure) {
     setState(() {
-      this.departureDate = departure;
-      this.returnDate = returnDate;
+      departureDate = departure; // Only store departure date for one-way
     });
-    print("Selected Dates: Departure: $departure, Return: $returnDate");
+    print("Selected Departure Date: $departure");
   }
 
   void _handlePassengersSelected(int adultCount, int childCount) {
@@ -77,15 +75,15 @@ class _RoundTripTabState extends State<RoundTripTab> {
               },
             ),
             const SizedBox(height: 16.0),
-            // Use the new PassengerSelectorWidget
             PassengerSelectorWidget(
               initialAdultCount: _adultCount,
               initialChildCount: _childCount,
               onPassengersSelected: _handlePassengersSelected,
             ),
             const SizedBox(height: 16.0),
-            DateSelectorWidget(
-              onDatesSelected: _handleDatesSelected,
+            // Use the new DepartureDateSelectorWidget for one-way
+            DepartureDateSelectorWidget(
+              onDateSelected: _handleDateSelected,
             ),
             const SizedBox(height: 16.0),
             ClassCabinSelector(onChanged: (value) {}),
@@ -96,8 +94,8 @@ class _RoundTripTabState extends State<RoundTripTab> {
                 buttonLabel: "Search Flight",
                 onclick: () {
                   HelperFunctions.routePushTo(
-                      const FlightSearchResultsPage(), context);
-                  print("Departure: $departureDate, Return: $returnDate");
+                      FlightSearchResultsPage(), context);
+                  print("Departure: $departureDate");
                   print("Adults: $_adultCount, Children: $_childCount");
                   print("Implement Search Flight");
                 },

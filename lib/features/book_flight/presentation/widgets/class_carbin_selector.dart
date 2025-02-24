@@ -29,81 +29,109 @@ class _ClassCabinSelectorState extends State<ClassCabinSelector> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Class/Cabin',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors
-                .grey[600], // Matches the green-grey tone in the screenshot
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
+          decoration: BoxDecoration(
+            color: Theme.of(context)
+                .extension<AppThemeExtension>()
+                ?.cardColor(context),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.grey[300]!),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.primary,
+                offset: const Offset(0, -3),
+              ),
+            ],
           ),
-        ),
-        const SizedBox(height: 8.0),
-        Stack(
-          children: [
-            // Container(
-            //   width: 200,
-            //   height: 200,
-            //   decoration:
-            //       BoxDecoration(color: Theme.of(context).colorScheme.primary),
-            // ),
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context)
-                    .extension<AppThemeExtension>()
-                    ?.cardColor(context),
-                borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(
-                    color:
-                        Colors.grey[300]!), // Grey border as in the screenshot
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              const double smallScreenWidth = 400; // Adjusted breakpoint
+              bool isSmallScreen = constraints.maxWidth < smallScreenWidth;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildRadioOption(
-                    'Economy',
+                  const Text(
+                    'Class/Cabin',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  _buildRadioOption(
-                    'Business',
-                  ),
-                  _buildRadioOption(
-                    'First Class',
-                  ),
+                  const SizedBox(height: 8.0),
+                  isSmallScreen
+                      ? Column(
+                          children: [
+                            _buildRadioOption('Economy', isSmallScreen),
+                            _buildRadioOption('Business', isSmallScreen),
+                            _buildRadioOption('First Class', isSmallScreen),
+                          ],
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _buildRadioOption('Economy', isSmallScreen),
+                            _buildRadioOption('Business', isSmallScreen),
+                            _buildRadioOption('First Class', isSmallScreen),
+                          ],
+                        ),
                 ],
-              ),
-            )
-          ],
+              );
+            },
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildRadioOption(String value) {
-    return Expanded(
-      child: RadioListTile<String>(
-        value: value,
-        groupValue: _selectedValue,
-        onChanged: (newValue) {
-          if (newValue != null) {
-            setState(() {
-              _selectedValue = newValue;
-            });
-            widget.onChanged(newValue); // Notify parent of the change
-          }
-        },
-        title: Text(
-          value,
-          style: TextStyle(
-            fontSize: 16,
-          ),
-        ),
-        activeColor: Colors.green, // Green checkmark for selected option
-        contentPadding:
-            EdgeInsets.zero, // Remove default padding for compact layout
-        dense: true, // Makes the radio button more compact
-      ),
-    );
+  Widget _buildRadioOption(String value, bool isSmallScreen) {
+    return isSmallScreen
+        ? RadioListTile<String>(
+            value: value,
+            groupValue: _selectedValue,
+            onChanged: (newValue) {
+              if (newValue != null) {
+                setState(() {
+                  _selectedValue = newValue;
+                });
+                widget.onChanged(newValue); // Notify parent of the change
+              }
+            },
+            title: Text(
+              value,
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            activeColor: Theme.of(context).colorScheme.primary,
+            contentPadding: EdgeInsets.zero,
+            dense: true,
+            controlAffinity: ListTileControlAffinity.trailing,
+          )
+        : Expanded(
+            child: RadioListTile<String>(
+              value: value,
+              groupValue: _selectedValue,
+              onChanged: (newValue) {
+                if (newValue != null) {
+                  setState(() {
+                    _selectedValue = newValue;
+                  });
+                  widget.onChanged(newValue); // Notify parent of the change
+                }
+              },
+              title: Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 10,
+                ),
+              ),
+              activeColor: Theme.of(context).colorScheme.primary,
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              controlAffinity: ListTileControlAffinity.leading,
+            ),
+          );
   }
 }

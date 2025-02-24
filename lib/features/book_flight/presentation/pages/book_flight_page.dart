@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:silicash_mobile/core/widgets/costum_app_bar.dart';
+import 'package:silicash_mobile/features/book_flight/presentation/screens/multi_city_tab.dart';
+import 'package:silicash_mobile/features/book_flight/presentation/screens/one_way_tab.dart';
 import 'package:silicash_mobile/features/book_flight/presentation/screens/round_trip_tab.dart';
 
 class BookFlightPage extends StatefulWidget {
@@ -22,6 +24,7 @@ class _BookFlightPageState extends State<BookFlightPage>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: CustomAppBar(),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -86,12 +89,8 @@ class _BookFlightPageState extends State<BookFlightPage>
                   controller: _tabController,
                   children: [
                     RoundTripTab(),
-                    Center(
-                      child: Text("One Way"),
-                    ),
-                    Center(
-                      child: Text("Multi City"),
-                    ),
+                    OneWayTab(),
+                    MultiCityTab(),
                   ],
                 ),
               ),

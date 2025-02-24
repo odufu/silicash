@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Silicash',
       theme: lightMode,
-      // darkTheme: darkMode,
-      // themeMode: ThemeMode.system,
+      darkTheme: darkMode,
+      themeMode: ThemeMode.system,
       home: SplashScreen(),
     );
   }
