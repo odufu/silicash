@@ -8,32 +8,32 @@ import './features/splash_screen/pages/splash_screen1.dart';
 import 'package:provider/provider.dart';
 
 //TEST MAIN
-// void main() {
-//   runApp(
-//     DevicePreview(
-//       builder: (context) => MultiProvider(
-//         providers: [
-//           ChangeNotifierProvider(create: (_) => RegistrationProvider()),
-//           // Add other providers here if needed
-//         ],
-//         child: MyApp(),
-//       ), // Wrap your app
-//     ),
-//   );
-// }
-
-//PROD MAIN
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => RegistrationProvider()),
-        // Add other providers here if needed
-      ],
-      child: MyApp(),
+    DevicePreview(
+      builder: (context) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => RegistrationProvider()),
+          // Add other providers here if needed
+        ],
+        child: MyApp(),
+      ), // Wrap your app
     ),
   );
 }
+
+// //PROD MAIN
+// void main() {
+//   runApp(
+//     MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(create: (_) => RegistrationProvider()),
+//         // Add other providers here if needed
+//       ],
+//       child: MyApp(),
+//     ),
+//   );
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
