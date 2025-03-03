@@ -3,9 +3,9 @@ import 'package:silicash_mobile/core/theme/app_theme_extension.dart';
 import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
 import 'package:silicash_mobile/core/widgets/costum_app_bar.dart';
-import 'package:silicash_mobile/features/login/pages/login_page.dart';
+import 'package:silicash_mobile/features/login/presentation/pages/login_page.dart';
 import '../../../../core/theme/app_theme_extension.dart';
-import '../../../login/services/login_service.dart';
+import '../../../login/data/services/login_service.dart';
 
 class ProfilePage extends StatelessWidget {
   final LoginService loginService;

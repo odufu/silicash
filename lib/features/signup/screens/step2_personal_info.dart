@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:silicash_mobile/core/utils/constants.dart';
-import 'package:silicash_mobile/features/login/services/login_service.dart';
+import 'package:silicash_mobile/features/login/data/services/login_service.dart';
 import '../../../core/utils/helper_functions.dart';
 import '../../../core/widgets/app_button.dart';
-import '../../login/pages/login_page.dart';
+import '../../login/presentation/pages/login_page.dart';
 import '../provider/registration_provider.dart';
 
 class Step2PersonalInfo extends StatefulWidget {

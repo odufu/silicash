@@ -7,13 +7,13 @@ import 'package:silicash_mobile/core/widgets/costum_password_input.dart';
 import 'package:silicash_mobile/features/signup/pages/registration_flow.dart';
 import 'package:silicash_mobile/features/signup/pages/signup_page.dart';
 import 'package:silicash_mobile/features/signup/screens/step3_otp_screen.dart';
-import '../../../core/utils/constants.dart';
-import '../../../core/utils/helper_functions.dart';
-import '../../../core/widgets/costum_app_bar.dart';
-import '../../../core/widgets/costum_loader.dart';
-import '../../home/pages/home_page.dart';
-import '../../signup/provider/registration_provider.dart';
-import '../services/login_service.dart';
+import '../../../../core/utils/constants.dart';
+import '../../../../core/utils/helper_functions.dart';
+import '../../../../core/widgets/costum_app_bar.dart';
+import '../../../../core/widgets/costum_loader.dart';
+import '../../../home/pages/home_page.dart';
+import '../../../signup/provider/registration_provider.dart';
+import '../../data/services/login_service.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 
 class LoginPage extends StatefulWidget {

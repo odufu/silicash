@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:silicash_mobile/features/login/services/login_service.dart';
+import 'package:silicash_mobile/features/login/data/services/login_service.dart';
 
 import '../provider/registration_provider.dart';
 

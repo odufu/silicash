@@ -3,11 +3,11 @@ import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:provider/provider.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
 import 'package:silicash_mobile/core/widgets/costum_text_button.dart';
-import 'package:silicash_mobile/features/login/pages/login_page.dart';
+import 'package:silicash_mobile/features/login/presentation/pages/login_page.dart';
 import '../../../core/utils/constants.dart';
 import '../../../core/utils/helper_functions.dart';
 import '../../../core/widgets/country_selection_widet.dart';
-import '../../login/services/login_service.dart';
+import '../../login/data/services/login_service.dart';
 import '../provider/registration_provider.dart';
 
 class Step1CountryLanguage extends StatefulWidget {

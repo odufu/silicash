@@ -1,0 +1,11 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        generate_for:
+          include:
+            - lib/core/network/api_result.dart
+            - lib/core/network/network_exceptions.dart
+      json_serializable:
+        options:
+          explicit_to_json: true

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:silicash_mobile/core/utils/helper_functions.dart';
 import 'package:silicash_mobile/core/widgets/app_button.dart';
-import 'package:silicash_mobile/features/login/pages/login_page.dart';
+import 'package:silicash_mobile/features/login/presentation/pages/login_page.dart';
 
 import '../../../core/pages/success_screen.dart';
 import '../../../core/utils/constants.dart';
-import '../../login/services/login_service.dart';
+import '../../login/data/services/login_service.dart';
 
 class Succee extends StatelessWidget {
   final String title;

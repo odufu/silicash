@@ -7,7 +7,7 @@ import 'package:silicash_mobile/features/home/pages/home_page.dart';
 import 'package:silicash_mobile/features/signup/pages/signup_page.dart';
 import 'package:silicash_mobile/features/signup/widgets/annimated_circular_widget.dart';
 
-import '../../../core/widgets/costum_app_bar.dart';
+import '../../../../core/widgets/costum_app_bar.dart';
 
 class LoginPage extends StatefulWidget {
   @override

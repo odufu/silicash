@@ -5,8 +5,8 @@ import 'package:silicash_mobile/features/signup/screens/success.dart';
 
 import '../../../core/utils/constants.dart';
 import '../../../core/utils/helper_functions.dart';
-import '../../login/pages/login_page.dart';
-import '../../login/services/login_service.dart';
+import '../../login/presentation/pages/login_page.dart';
+import '../../login/data/services/login_service.dart';
 
 class Step4CreatePinScreen extends StatefulWidget {
   final VoidCallback onNext;
